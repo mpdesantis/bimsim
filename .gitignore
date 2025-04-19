@@ -1,0 +1,47 @@
+###############################################################################
+# .gitignore
+###############################################################################
+# Description
+# -----------
+# Ignore file or directory by pattern.
+#
+# Usage
+# -----
+# Ignore file or directory by pattern:
+# <pattern>
+#
+# Pattern Operators
+# -----------------
+#      /     - directory designator and separator
+#      *     - wildcard match any number of char except '/'
+#      ?     - match any single char except '/'
+#      !     - negate
+#  [<range>] - range of chars to match
+#     **/    - search all dirs
+#    a/**    - match everything inside a
+#   a/**/b   - match b as any generation child subdir of a
+#
+###############################################################################
+# Author: M. De Santis
+# Last Edited: 2023/05/30
+###############################################################################
+
+# objects
+*.o
+# vim swapfiles
+*.swp
+# backups
+*.bak
+# run executables
+run
+# logs
+*.log
+# scratch
+*.scratch
+**/scratch
+# artifacts
+**/build
+**/bin
+# simulation outputs
+output/*
+
