@@ -4,7 +4,7 @@
 * Date: 2025/03/23
 
 ## Description
-Cell Discrete Event System Specification (Cell-DEVS) Model and Simulation for the Procedural Content Generation (PCG) of a game map. For additional information, please see the `doc/` directory.
+Modeling and Simulating Post-Pandemic Work Practices with Building Information Modeling (BIM) and Cell Discrete Event System Specifications (Cell-DEVS). For additional information, please see the `doc/` directory.
 
 ## Contents
 This repository's contents.
@@ -21,8 +21,8 @@ This repository's contents.
     - CMake build instructions for this repository.
 * `doc/`
     - Directory containing documentation for this repository.
-        1. Report: `Map_Generation.pdf`
-        2. Model Source Article: `wu-map-gen-from-ca.pdf`
+        1. Report: `REPORT.pdf`
+        2. docs
 * `env.sh`
     - Shell script defining additional environment variables for this repository.
 * `example-output/`
