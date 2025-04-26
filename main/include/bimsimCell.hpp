@@ -76,20 +76,21 @@ class bimsim : public GridCell<BimSimState, double> {
 
         /* Mutate State Based on Rules and Return */
 
-        // Case: EMPTY_OK cell
-        if(state.type == BimSimStateName::EMPTY_OK_3) {
+        // Case: EMPTY cell [0, 7]
+        if(state.type >= BimSimStateName::EMPTY_COLD_0 && state.type <= BimSimStateName::EMPTY_HOT_6) {
             // Take the average neighbourhood temperature as the new cell temperature
-            std::cout << "\nEMPTY_OK cell temp updated: " << state.temperature;
+            std::cout << state.type << " cell temp updated: " << state.temperature;
             state.temperature = neighbourhood_temperature / neighbours;
             std::cout << " --> " << state.temperature << std::endl;
+            state.temperature -= randomDouble();
             // Update the state based on new temperature for visualization
-            //updateEmptyCellStateByTemperature(state);
+            updateEmptyCellStateByTemperature(state);
         } 
         // Case: HEATER cell
         else if(state.type == BimSimStateName::HEATER) {
             // Take the average neighbourhood temperature as the new cell temperature,
             // but add some heat from the heater.
-            std::cout << "\nHEATER temp updated: " << state.temperature;
+            std::cout << state.type << " cell temp updated: " << state.temperature;
             state.temperature = neighbourhood_temperature / neighbours;
             std::cout << " --> " << state.temperature;
             state.temperature += HEATER_TEMP_INCREASE;
@@ -114,7 +115,7 @@ class bimsim : public GridCell<BimSimState, double> {
     }
 
     /**
-     * Get a random double within defined limits
+     * Get a random probability in [0, 1]
      */
     double randomProbability() const {     
         std::random_device rd;
@@ -124,9 +125,19 @@ class bimsim : public GridCell<BimSimState, double> {
     }
 
     /**
+     * Get a random double in limits
+     */
+    double randomDouble() const {     
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis(0.0, 2.0);
+        return dis(gen);
+    }
+
+    /**
      * Update (mutate) state of EMPTY cells based on temperature.
      */
-    void updateEmptyCellStateByTemperature(BimSimState& state) {     
+    void updateEmptyCellStateByTemperature(BimSimState& state) const {     
 
         // < 19
         if (state.temperature < (MIN_TARGET_TEMP - 2.00))  {

@@ -100,5 +100,3 @@ ${SIMULATION_BINARY} -c ${PROTOTYPE_CONFIG} -o ${PROTOTYPE_OUTPUT}
 #${SIMULATION_BINARY} -c ${EX03_V03_CONFIG} -o ${EX03_V03_OUTPUT}
 
 echo -e "\n--- YOU EXECUTED ---"
-
-./bin/bimsim -c prototype/bimsim_config.json -d 33 -o prototype/bimsim_grid_log.csv
