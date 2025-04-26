@@ -40,6 +40,7 @@ class bimsim : public GridCell<BimSimState, double> {
     // Temperature step for state categorization
     static constexpr double TEMP_STEP = 1.00; // Step for up and down the state scale
     // Heater temperature contribution
+    // N.B. This looks like a lot, but it diffuses rapidly
     static constexpr double HEATER_TEMP_INCREASE = 100.00;
     // Dissipation bounds - may relocate to cell properties for easier configuration
     static constexpr double DISSIPATION_MIN = 0.10;
@@ -100,6 +101,7 @@ class bimsim : public GridCell<BimSimState, double> {
             updateEmptyCellStateByTemperature(state);
         } 
         // Case: HEATER cell [9, 10]
+        // N.B. Remember that HEATER cells have extended Moore neighbourhoods (r=4)
         else if(state.type == BimSimStateName::HEATER_ON || state.type == BimSimStateName::HEATER_OFF) {
 
             // Take the average neighbourhood temperature as the new cell temperature.
@@ -123,7 +125,7 @@ class bimsim : public GridCell<BimSimState, double> {
 
 
             // Turn the heater ON or OFF as required
-            updateHeaterCellState(state);
+            updateHeaterCellState(state, occupant_neighbours);
         } 
         // Case: WALL cell 
         else if(state.type == BimSimStateName::WALL) {
@@ -132,7 +134,7 @@ class bimsim : public GridCell<BimSimState, double> {
             // Apply heat dissipation
             state.temperature -= dissipate();
             // Apply external wall heat dissipation
-            state.temperature -= dissipate(1.00, 2.00);
+            state.temperature -= dissipate(0.50, 1.00); // TODO: constants
         }
         // Case: WINDOW cell 
         else if(state.type == BimSimStateName::WINDOW) {
@@ -141,7 +143,7 @@ class bimsim : public GridCell<BimSimState, double> {
             // Apply heat dissipation
             state.temperature -= dissipate();
             // Apply window heat dissipation 
-            state.temperature -= dissipate(2.00, 3.00);
+            state.temperature -= dissipate(1.00, 1.50); // TODO: constants
         }
 
         // Return the (possibly) mutated state, with its temperature retained
@@ -222,10 +224,10 @@ class bimsim : public GridCell<BimSimState, double> {
     /**
      * Update (mutate) state of HEATER cells based on temperature targets.
      */
-    void updateHeaterCellState(BimSimState& state) const {     
+    void updateHeaterCellState(BimSimState& state, int occupants) const {     
 
-        // If strictly less than target temperature, heater ON
-        if (state.temperature < TARGET_TEMP)  {
+        // If zone occupied and strictly less than target temperature, heater ON
+        if (state.temperature < TARGET_TEMP && occupants)  {
             state.type = BimSimStateName::HEATER_ON;
             //std::cout << "HEATER ON" << std::endl;
         }
