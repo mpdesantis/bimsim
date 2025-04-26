@@ -75,13 +75,7 @@ bool operator!=(const BimSimState& x, const BimSimState& y) {
  */
 void from_json(const nlohmann::json& j, BimSimState& s) {
     j.at("type").get_to(s.type);
-    if (j.contains("temperature")) {
-        j.at("temperature").get_to(s.temperature);
-    } else {
-        s.temperature = BimSimState::DEFAULT_TEMP;
-    }
-
-    std::cout << "Initialized cell type " << s.type << " with temp " << s.temperature << "\n";
+    j.at("temperature").get_to(s.temperature);
 }
 
 #endif // BIMSIM_STATE_HPP

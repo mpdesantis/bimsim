@@ -35,10 +35,10 @@ class bimsim : public GridCell<BimSimState, double> {
     static constexpr double MAX_TARGET_TEMP = 24.00;
     static constexpr double TEMP_STEP = 1.00; // Step for up and down the state scale
     // TODO: randomize within interval
-    static constexpr double HEATER_TEMP_INCREASE = 200.00;
+    static constexpr double HEATER_TEMP_INCREASE = 32.00;
     // Heat dissipation
-    static constexpr double DISSIPATION_MIN = 1.00;
-    static constexpr double DISSIPATION_MAX = 2.00;
+    static constexpr double DISSIPATION_MIN = 0.25;
+    static constexpr double DISSIPATION_MAX = 0.50;
 
     public:
 
@@ -66,7 +66,7 @@ class bimsim : public GridCell<BimSimState, double> {
 
         // Canvas this cell's neighborhood to categorize neighbor types
         // ie. tally neighbor cells by type type
-        std::cout << "\nCANVAS" << std::endl;
+        std::cout << "\nCANVAS";
         for (const auto& [neighborId, neighborData]: neighborhood) {
             // State of the neighbor cell for this iteration
             auto nState = neighborData.state;
@@ -112,20 +112,13 @@ class bimsim : public GridCell<BimSimState, double> {
             std::cout << state.type << " HEATER temp updated: " << state.temperature;
             state.temperature = neighbourhood_temperature / neighbours;
             std::cout << " --> " << state.temperature;
-            state.temperature -= dissipate();
             state.temperature += HEATER_TEMP_INCREASE;
-            state.temperature = 1000;
-            //state.temperature += dissipate();
+            state.temperature -= dissipate();
             std::cout << " --> " << state.temperature << std::endl;
             // Don't update state, since a HEATER is a HEATER no matter how hot!
-            updateHeaterCell(state);
         } 
-        // Else: TODO: Remove
-        //else {
-        //    state.temperature = neighbourhood_temperature / neighbours;
-        //}
 
-        // Return the (possibly) mutated state
+        // Return the (possibly) mutated state, with its temperature retained
         return state;
 
     }
@@ -199,12 +192,7 @@ class bimsim : public GridCell<BimSimState, double> {
         }
 
     }
-    /**
-     * Update (mutate) state of EMPTY cells based on temperature.
-     */
-    void updateHeaterCell(BimSimState& state) const {     
-        state.type = BimSimStateName::HEATER;
-    }
+
 };
 
 #endif // BIMSIM_CELL_HPP
