@@ -31,6 +31,11 @@ class bimsim : public GridCell<BimSimState, double> {
 
     // Delay time units
     static constexpr double DEFAULT_DELAY_TIME = 1.00;
+    static constexpr double MIN_TARGET_TEMP = 21.00;
+    static constexpr double MAX_TARGET_TEMP = 24.00;
+    static constexpr double TEMP_STEP = 1.00; // Step for up and down the state scale
+    // TODO: randomize within interval
+    static constexpr double HEATER_TEMP_INCREASE = 1.00;
 
     public:
 
@@ -49,143 +54,56 @@ class bimsim : public GridCell<BimSimState, double> {
 
         /* Local Variables */
 
-        // Accumulators for all neighbor types (differentiated by terrain)
-        int water_neighbors = 0;
-        int land_neighbors = 0;
-        int forest_neighbors = 0;
-        int sand_neighbors = 0;
-        int non_water_neighbors = 0;
+        // Accumulators 
+        int neighbours = 0;
+        double neighbourhood_temperature = 0.0;
 
         /* Canvas the Neighborhood */
 
         // Canvas this cell's neighborhood to categorize neighbor types
-        // ie. tally neighbor cells by terrain type
+        // ie. tally neighbor cells by type type
         for (const auto& [neighborId, neighborData]: neighborhood) {
             // State of the neighbor cell for this iteration
             auto nState = neighborData.state;
 
-            // WATER neighbors
-            if(nState->terrain == BimSimStateName::WATER) {
-                water_neighbors++;
-            }
-            // LAND neighbors
-            if(nState->terrain == BimSimStateName::LAND) {
-                land_neighbors++;
-            }
-            // FOREST neighbors
-            if(nState->terrain == BimSimStateName::FOREST) {
-                forest_neighbors++;
-            }
-            // SAND neighbors
-            if(nState->terrain == BimSimStateName::SAND) {
-                sand_neighbors++;
-            }
+            // Accumulate neighbours
+            // N.B. We may not have a full neighbourhood at borders, so can't assume.
+            neighbours++;
+            // Accumulate temperature
+            neighbourhood_temperature += nState->temperature;
+
         }
 
         /* Mutate State Based on Rules and Return */
 
-        // Case: WATER cell
-        if(state.terrain == BimSimStateName::WATER) {
-            // Uncount this cell from its own neighborhood tally
-            water_neighbors--; 
-            // Tally the alive (ie. non-WATER neighbors) for rule use
-            non_water_neighbors = land_neighbors + forest_neighbors + sand_neighbors;
-
-            // Case: WATER --> LAND
-            if(non_water_neighbors > state.land_birth_limit) {
-                // A LAND cell is born
-                state.terrain = BimSimStateName::LAND; 
-            }
+        // Case: EMPTY_OK cell
+        if(state.type == BimSimStateName::EMPTY_OK_3) {
+            // Take the average neighbourhood temperature as the new cell temperature
+            std::cout << "\nEMPTY_OK cell temp updated: " << state.temperature;
+            state.temperature = neighbourhood_temperature / neighbours;
+            std::cout << " --> " << state.temperature << std::endl;
+            // Update the state based on new temperature for visualization
+            //updateEmptyCellStateByTemperature(state);
         } 
-
-        // Case: LAND cell
-        else if (state.terrain == BimSimStateName::LAND) {
-            // Uncount this cell from its own neighborhood tally
-            land_neighbors--; 
-            // Tally the alive (ie. non-WATER neighbors) for rule use
-            non_water_neighbors = land_neighbors + forest_neighbors + sand_neighbors;
-
-            // Case: LAND --> WATER
-            if(non_water_neighbors < state.land_death_limit) {
-                // A LAND cell dies
-                state.terrain = BimSimStateName::WATER;
-            }
-
-            // Case: LAND --> SAND | LAND
-            // SAND can only form near WATER (ie. at least one WATER neighbor)
-            else if (water_neighbors) {
-                // Get random number in [0, 1] to test against SAND rules
-                double r = randomProbability();
-                // Get base threshold for becoming SAND
-                double sand_threshold = state.sand_base_rate;
-                // SAND is more likely to form near WATER.
-                // Apply multiplier to increase chance of becoming SAND
-                // based on number of WATER neighbours
-                sand_threshold += state.sand_multiplier * water_neighbors;
-                // Case: This cell is below threshold, so it becomes SAND
-                if (r <= sand_threshold) {
-                    // A SAND cell is born
-                    state.terrain = BimSimStateName::SAND;
-                }
-                // Case: This cell remains LAND
-            }
-
-            // Case: LAND --> FOREST | LAND
-            // Forests only grow in interior (ie. no WATER neighbors)
-            else {
-                // Get random number in [0, 1] to test against FOREST rules
-                double r = randomProbability();
-                // Get base threshold for becoming FOREST
-                double forest_threshold = state.forest_base_rate;
-                // FOREST is more likely to form near FOREST.
-                // Apply multiplier to increase chance of becoming FOREST
-                // based on number of FOREST neighbors.
-                forest_threshold += state.forest_multiplier * forest_neighbors;
-                // Case: This cell is below threshold, so it becomes FOREST
-                if (r <= forest_threshold) {
-                    // A FOREST cell is born
-                    state.terrain = BimSimStateName::FOREST;
-                }
-                // Case: This cell remains LAND
-            }
-
+        // Case: HEATER cell
+        else if(state.type == BimSimStateName::HEATER) {
+            // Take the average neighbourhood temperature as the new cell temperature,
+            // but add some heat from the heater.
+            std::cout << "\nHEATER temp updated: " << state.temperature;
+            state.temperature = neighbourhood_temperature / neighbours;
+            std::cout << " --> " << state.temperature;
+            state.temperature += HEATER_TEMP_INCREASE;
+            std::cout << " --> " << state.temperature << std::endl;
+            // Don't update state, since a HEATER is a HEATER no matter how hot!
+        } 
+        // Else: TODO: Remove
+        else {
+            state.temperature = neighbourhood_temperature / neighbours;
         }
 
-        // Case: FOREST cell
-        // FOREST can only revert to LAND
-        else if (state.terrain == BimSimStateName::FOREST) {
-            // Uncount this cell from its own neighborhood tally
-            forest_neighbors--; 
-            // Tally the alive (ie. non-WATER neighbors) for rule use
-            non_water_neighbors = land_neighbors + forest_neighbors + sand_neighbors;
-
-            // Case: FOREST --> LAND
-            // If too much WATER nearby, revert to LAND
-            if(water_neighbors > state.forest_death_limit) {
-                // A FOREST cell reverts to LAND
-                state.terrain = BimSimStateName::LAND;
-            }
-        }
-
-        // Case: SAND cell
-        // SAND can only revert to LAND
-        else if (state.terrain == BimSimStateName::SAND) {
-            // Uncount this cell from its own neighborhood tally
-            sand_neighbors--; 
-            // Tally the alive (ie. non-WATER neighbors) for rule use
-            non_water_neighbors = land_neighbors + forest_neighbors + sand_neighbors;
-
-            // Case: SAND --> LAND
-            // If not enough WATER nearby, revert to LAND
-            if(water_neighbors < state.sand_death_limit) {
-                // A SAND cell reverts to LAND
-                state.terrain = BimSimStateName::LAND;
-            }
-        }
-
-        // Case: LAND --> LAND
-
+        // Return the (possibly) mutated state
         return state;
+
     }
 
     /**
@@ -206,11 +124,39 @@ class bimsim : public GridCell<BimSimState, double> {
     }
 
     /**
-     * Update temperature
+     * Update (mutate) state of EMPTY cells based on temperature.
      */
-    double updateTemperature(const BimSimState& state) const {     
-        double newTemperature;
-        return 1.0; 
+    void updateEmptyCellStateByTemperature(BimSimState& state) {     
+
+        // < 19
+        if (state.temperature < (MIN_TARGET_TEMP - 2.00))  {
+            state.type = BimSimStateName::EMPTY_COLD_0;
+        }
+        // [19, 20)
+        else if (state.temperature < (MIN_TARGET_TEMP - 1.00))  {
+            state.type = BimSimStateName::EMPTY_COLD_1;
+        }
+        // [20, 21)
+        else if (state.temperature < MIN_TARGET_TEMP)  {
+            state.type = BimSimStateName::EMPTY_COLD_2;
+        }
+        // [21, 24]
+        else if (state.temperature >= MIN_TARGET_TEMP && state.temperature <= MAX_TARGET_TEMP) {
+            state.type = BimSimStateName::EMPTY_OK_3;
+        }
+        // (24, 25)
+        else if (state.temperature < MAX_TARGET_TEMP + 1.00) {
+            state.type = BimSimStateName::EMPTY_HOT_4;
+        } 
+        // [25, 26)
+        else if (state.temperature < MAX_TARGET_TEMP + 2.00) {
+            state.type = BimSimStateName::EMPTY_HOT_5;
+        }
+        // > 26
+        else {
+            state.type = BimSimStateName::EMPTY_HOT_6;
+        }
+
     }
 };
 

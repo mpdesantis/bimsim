@@ -8,10 +8,17 @@
  * Enum for easy state representation.
  */
 enum BimSimStateName {
-    WATER,  // 0
-    LAND,   // 1
-    FOREST, // 2
-    SAND    // 3
+    EMPTY_COLD_0,  // 0
+    EMPTY_COLD_1,  // 1
+    EMPTY_COLD_2,  // 2
+    EMPTY_OK_3,    // 3 // DEFAULT
+    EMPTY_HOT_4,   // 4
+    EMPTY_HOT_5,   // 5
+    EMPTY_HOT_6,   // 6
+    WALL,          // 7     
+    SENSOR,        // 8
+    HEATER,        // 9
+    WINDOW         // 10
 };
 
 
@@ -19,31 +26,23 @@ enum BimSimStateName {
  * Atomic model cell state variables.
  */
 struct BimSimState {
+    
+    /**
+     * Constants
+     */
+    static constexpr double DEFAULT_TEMP = 22.5;
+
     /**
      * Members
      */
-    int terrain;
-    int land_birth_limit;
-    int land_death_limit;
-    int forest_death_limit;
-    int sand_death_limit;
-    double forest_base_rate;
-    double forest_multiplier;
-    double sand_base_rate;
-    double sand_multiplier;
+    int type;
+    double temperature;
 
     /**
      * Constructor
      */
-    BimSimState() : terrain(BimSimStateName::WATER)
-        , land_birth_limit(6)
-        , land_death_limit(4)
-        , forest_death_limit(3)
-        , sand_death_limit(2)
-        , forest_base_rate(0.10)
-        , forest_multiplier(0.12)
-        , sand_base_rate(0.15)
-        , sand_multiplier(0.05)
+    BimSimState() : type(BimSimStateName::EMPTY_OK_3)
+        , temperature(DEFAULT_TEMP)
     {}
 };
 
@@ -52,13 +51,11 @@ struct BimSimState {
  *
  * Defines the output format of the BimSimState enum class in order to
  * print the cell state.
- *  <0> : WATER
- *  <1> : LAND
- *  <2> : FOREST
- *  <3> : SAND
+ *  <0> : EMPTY_COLD_3
+ *  <1> : TODO
  */
 std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
-    os << "<" << s.terrain << ">";
+    os << "<" << s.type << ">";
     return os;
 }
 
@@ -68,23 +65,15 @@ std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
  * Enables simulator to check for equality between two state objects.
  */
 bool operator!=(const BimSimState& x, const BimSimState& y) {
-    return x.terrain != y.terrain;
+    return x.type != y.type;
 }
 
 /**
  * Parse a JSON file to populate a cell's state.
  */
 void from_json(const nlohmann::json& j, BimSimState& s) {
-    // terrain
-    j.at("terrain").get_to(s.terrain);
-    j.at("land_birth_limit").get_to(s.land_birth_limit);
-    j.at("land_death_limit").get_to(s.land_death_limit);
-    j.at("forest_death_limit").get_to(s.forest_death_limit);
-    j.at("sand_death_limit").get_to(s.sand_death_limit);
-    j.at("forest_base_rate").get_to(s.forest_base_rate);
-    j.at("forest_multiplier").get_to(s.forest_multiplier);
-    j.at("sand_base_rate").get_to(s.sand_base_rate);
-    j.at("sand_multiplier").get_to(s.sand_multiplier);
+    j.at("type").get_to(s.type);
+    j.at("temperature").get_to(s.temperature);
 }
 
 #endif // BIMSIM_STATE_HPP
