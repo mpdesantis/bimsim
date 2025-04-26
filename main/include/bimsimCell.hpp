@@ -35,7 +35,10 @@ class bimsim : public GridCell<BimSimState, double> {
     static constexpr double MAX_TARGET_TEMP = 24.00;
     static constexpr double TEMP_STEP = 1.00; // Step for up and down the state scale
     // TODO: randomize within interval
-    static constexpr double HEATER_TEMP_INCREASE = 1.00;
+    static constexpr double HEATER_TEMP_INCREASE = 200.00;
+    // Heat dissipation
+    static constexpr double DISSIPATION_MIN = 1.00;
+    static constexpr double DISSIPATION_MAX = 2.00;
 
     public:
 
@@ -56,51 +59,71 @@ class bimsim : public GridCell<BimSimState, double> {
 
         // Accumulators 
         int neighbours = 0;
+        int heater_neighbours = 0;
         double neighbourhood_temperature = 0.0;
 
         /* Canvas the Neighborhood */
 
         // Canvas this cell's neighborhood to categorize neighbor types
         // ie. tally neighbor cells by type type
+        std::cout << "\nCANVAS" << std::endl;
         for (const auto& [neighborId, neighborData]: neighborhood) {
             // State of the neighbor cell for this iteration
             auto nState = neighborData.state;
 
+            std::cout << "\n\tNeighbour " << neighbours << ": [" << neighborId << "]";
+
             // Accumulate neighbours
             // N.B. We may not have a full neighbourhood at borders, so can't assume.
             neighbours++;
+            // Accumulate heater neighbours
+            if (nState->type == BimSimStateName::HEATER) {
+                heater_neighbours++;
+                std::cout << " (heater)";
+
+            }
             // Accumulate temperature
+            std::cout << " +" << nState->temperature;
             neighbourhood_temperature += nState->temperature;
 
         }
+        std::cout << std::endl;
+        std::cout << "\tneighbourhood_temperature: " << neighbourhood_temperature << std::endl;
+        std::cout << "\tnum_neighbours: " << neighbours << std::endl;
 
         /* Mutate State Based on Rules and Return */
 
         // Case: EMPTY cell [0, 7]
         if(state.type >= BimSimStateName::EMPTY_COLD_0 && state.type <= BimSimStateName::EMPTY_HOT_6) {
             // Take the average neighbourhood temperature as the new cell temperature
-            std::cout << state.type << " cell temp updated: " << state.temperature;
+            std::cout << state.type << " EMPTY temp updated: " << state.temperature;
             state.temperature = neighbourhood_temperature / neighbours;
+            std::cout << " --> " << state.temperature;
+            // Apply heat disspiation rule
+            state.temperature -= dissipate();
             std::cout << " --> " << state.temperature << std::endl;
-            state.temperature -= randomDouble();
             // Update the state based on new temperature for visualization
             updateEmptyCellStateByTemperature(state);
         } 
         // Case: HEATER cell
-        else if(state.type == BimSimStateName::HEATER) {
+        if(state.type == BimSimStateName::HEATER) {
             // Take the average neighbourhood temperature as the new cell temperature,
             // but add some heat from the heater.
-            std::cout << state.type << " cell temp updated: " << state.temperature;
+            std::cout << state.type << " HEATER temp updated: " << state.temperature;
             state.temperature = neighbourhood_temperature / neighbours;
             std::cout << " --> " << state.temperature;
+            state.temperature -= dissipate();
             state.temperature += HEATER_TEMP_INCREASE;
+            state.temperature = 1000;
+            //state.temperature += dissipate();
             std::cout << " --> " << state.temperature << std::endl;
             // Don't update state, since a HEATER is a HEATER no matter how hot!
+            updateHeaterCell(state);
         } 
         // Else: TODO: Remove
-        else {
-            state.temperature = neighbourhood_temperature / neighbours;
-        }
+        //else {
+        //    state.temperature = neighbourhood_temperature / neighbours;
+        //}
 
         // Return the (possibly) mutated state
         return state;
@@ -125,12 +148,19 @@ class bimsim : public GridCell<BimSimState, double> {
     }
 
     /**
+     * Dissipate some heat within a range
+     */
+    double dissipate(double min = DISSIPATION_MIN, double max = DISSIPATION_MAX) const {     
+        return randomDouble(min, max);
+    }
+
+    /**
      * Get a random double in limits
      */
-    double randomDouble() const {     
+    double randomDouble(double min, double max) const {     
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<> dis(0.0, 2.0);
+        std::uniform_real_distribution<> dis(min, max);
         return dis(gen);
     }
 
@@ -168,6 +198,12 @@ class bimsim : public GridCell<BimSimState, double> {
             state.type = BimSimStateName::EMPTY_HOT_6;
         }
 
+    }
+    /**
+     * Update (mutate) state of EMPTY cells based on temperature.
+     */
+    void updateHeaterCell(BimSimState& state) const {     
+        state.type = BimSimStateName::HEATER;
     }
 };
 

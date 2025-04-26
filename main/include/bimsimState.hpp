@@ -26,11 +26,11 @@ enum BimSimStateName {
  * Atomic model cell state variables.
  */
 struct BimSimState {
-    
+   
     /**
      * Constants
      */
-    static constexpr double DEFAULT_TEMP = 22.5;
+    static constexpr double DEFAULT_TEMP = 22.777;
 
     /**
      * Members
@@ -65,7 +65,9 @@ std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
  * Enables simulator to check for equality between two state objects.
  */
 bool operator!=(const BimSimState& x, const BimSimState& y) {
-    return x.type != y.type;
+    // N.B. Explicitly check EVERYTHING you are interested in!!!!!!!
+    // This is a sneaky bug hotspot.
+    return x.type != y.type || std::abs(x.temperature - y.temperature) > 0.0001;
 }
 
 /**
@@ -73,7 +75,13 @@ bool operator!=(const BimSimState& x, const BimSimState& y) {
  */
 void from_json(const nlohmann::json& j, BimSimState& s) {
     j.at("type").get_to(s.type);
-    j.at("temperature").get_to(s.temperature);
+    if (j.contains("temperature")) {
+        j.at("temperature").get_to(s.temperature);
+    } else {
+        s.temperature = BimSimState::DEFAULT_TEMP;
+    }
+
+    std::cout << "Initialized cell type " << s.type << " with temp " << s.temperature << "\n";
 }
 
 #endif // BIMSIM_STATE_HPP
