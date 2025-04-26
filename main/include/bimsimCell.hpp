@@ -31,14 +31,17 @@ class bimsim : public GridCell<BimSimState, double> {
 
     // Delay time units
     static constexpr double DEFAULT_DELAY_TIME = 1.00;
+    // Target temperatures
     static constexpr double MIN_TARGET_TEMP = 21.00;
     static constexpr double MAX_TARGET_TEMP = 24.00;
+    static constexpr double TARGET_TEMP = (MAX_TARGET_TEMP + MIN_TARGET_TEMP) / 2;
+    // Temperature step for state categorization
     static constexpr double TEMP_STEP = 1.00; // Step for up and down the state scale
-    // TODO: randomize within interval
+    // Heater temperature contribution
     static constexpr double HEATER_TEMP_INCREASE = 32.00;
-    // Heat dissipation
-    static constexpr double DISSIPATION_MIN = 0.25;
-    static constexpr double DISSIPATION_MAX = 0.50;
+    // Dissipation bounds - may relocate to cell properties for easier configuration
+    static constexpr double DISSIPATION_MIN = 0.20;
+    static constexpr double DISSIPATION_MAX = 0.40;
 
     public:
 
@@ -59,63 +62,62 @@ class bimsim : public GridCell<BimSimState, double> {
 
         // Accumulators 
         int neighbours = 0;
-        int heater_neighbours = 0;
+        int occupant_neighbours = 0;
         double neighbourhood_temperature = 0.0;
 
         /* Canvas the Neighborhood */
 
         // Canvas this cell's neighborhood to categorize neighbor types
-        // ie. tally neighbor cells by type type
-        std::cout << "\nCANVAS";
+        // ie. tally neighbor cells by type
         for (const auto& [neighborId, neighborData]: neighborhood) {
             // State of the neighbor cell for this iteration
             auto nState = neighborData.state;
 
-            std::cout << "\n\tNeighbour " << neighbours << ": [" << neighborId << "]";
+            // DEBUG
+            //std::cout << "\n\tNeighbour " << neighbours << ": [" << neighborId << "]";
 
-            // Accumulate neighbours
-            // N.B. We may not have a full neighbourhood at borders, so can't assume.
+            // Accumulate neighbours for temperature averaging calculation
             neighbours++;
-            // Accumulate heater neighbours
-            if (nState->type == BimSimStateName::HEATER) {
-                heater_neighbours++;
-                std::cout << " (heater)";
-
+            // Accumulate occupant neighbours for sensor use in controlling heaters
+            if (nState->type == BimSimStateName::OCCUPANT) {
+                occupant_neighbours++;
             }
-            // Accumulate temperature
-            std::cout << " +" << nState->temperature;
             neighbourhood_temperature += nState->temperature;
 
         }
-        std::cout << std::endl;
-        std::cout << "\tneighbourhood_temperature: " << neighbourhood_temperature << std::endl;
-        std::cout << "\tnum_neighbours: " << neighbours << std::endl;
 
         /* Mutate State Based on Rules and Return */
 
         // Case: EMPTY cell [0, 7]
         if(state.type >= BimSimStateName::EMPTY_COLD_0 && state.type <= BimSimStateName::EMPTY_HOT_6) {
             // Take the average neighbourhood temperature as the new cell temperature
-            std::cout << state.type << " EMPTY temp updated: " << state.temperature;
             state.temperature = neighbourhood_temperature / neighbours;
-            std::cout << " --> " << state.temperature;
-            // Apply heat disspiation rule
+            // Apply heat dissipation
             state.temperature -= dissipate();
-            std::cout << " --> " << state.temperature << std::endl;
-            // Update the state based on new temperature for visualization
+            // Update the state based on new temperature (for visualization)
             updateEmptyCellStateByTemperature(state);
         } 
-        // Case: HEATER cell
-        if(state.type == BimSimStateName::HEATER) {
-            // Take the average neighbourhood temperature as the new cell temperature,
-            // but add some heat from the heater.
-            std::cout << state.type << " HEATER temp updated: " << state.temperature;
+        // Case: HEATER cell [9, 10]
+        else if(state.type == BimSimStateName::HEATER_ON || state.type == BimSimStateName::HEATER_OFF) {
+            // Take the average neighbourhood temperature as the new cell temperature.
             state.temperature = neighbourhood_temperature / neighbours;
-            std::cout << " --> " << state.temperature;
-            state.temperature += HEATER_TEMP_INCREASE;
+            // Apply heat dissipation
             state.temperature -= dissipate();
-            std::cout << " --> " << state.temperature << std::endl;
-            // Don't update state, since a HEATER is a HEATER no matter how hot!
+
+            std::cout << state.type << ":" 
+                      << "\n\tCurrent Temperature: " << state.temperature
+                      << "\n\tTarget Temperature:  " << TARGET_TEMP
+                      << std::endl;
+
+            // Case: HEATER_ON, so supply heat
+            if(state.type == BimSimStateName::HEATER_ON) {
+                // Supply heat from heater
+                state.temperature += HEATER_TEMP_INCREASE;
+                std::cout << "-- ADDING HEAT: " << HEATER_TEMP_INCREASE << std::endl;
+            }
+
+            // Turn the heater ON or OFF as required
+            updateHeaterCellState(state);
         } 
 
         // Return the (possibly) mutated state, with its temperature retained
@@ -191,6 +193,23 @@ class bimsim : public GridCell<BimSimState, double> {
             state.type = BimSimStateName::EMPTY_HOT_6;
         }
 
+    }
+
+    /**
+     * Update (mutate) state of HEATER cells based on temperature targets.
+     */
+    void updateHeaterCellState(BimSimState& state) const {     
+
+        // If strictly less than target temperature, heater ON
+        if (state.temperature < TARGET_TEMP)  {
+            state.type = BimSimStateName::HEATER_ON;
+            //std::cout << "HEATER ON" << std::endl;
+        }
+        // If greater than target temperature, heater OFF
+        else {
+            state.type = BimSimStateName::HEATER_OFF;
+            //std::cout << "HEATER ON" << std::endl;
+        }
     }
 
 };

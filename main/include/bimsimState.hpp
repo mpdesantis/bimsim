@@ -17,8 +17,9 @@ enum BimSimStateName {
     EMPTY_HOT_6,   // 6
     WALL,          // 7     
     OCCUPANT,      // 8
-    HEATER,        // 9
-    WINDOW         // 10
+    HEATER_ON,     // 9
+    HEATER_OFF,    // 10
+    WINDOW         // 11
 };
 
 
@@ -51,8 +52,18 @@ struct BimSimState {
  *
  * Defines the output format of the BimSimState enum class in order to
  * print the cell state.
- *  <0> : EMPTY_COLD_3
- *  <1> : TODO
+ *  <0>  : EMPTY_COLD_0
+ *  <1>  : EMPTY_COLD_1
+ *  <2>  : EMPTY_COLD_2
+ *  <3>  : EMPTY_OK_3
+ *  <4>  : EMPTY_HOT_4
+ *  <5>  : EMPTY_HOT_5
+ *  <6>  : EMPTY_HOT_6
+ *  <7>  : WALL
+ *  <8>  : OCCUPANT
+ *  <9>  : HEATER_ON
+ *  <10> : HEATER_OFF
+ *  <11> : WINDOW
  */
 std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
     os << "<" << s.type << ">";
@@ -67,7 +78,8 @@ std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
 bool operator!=(const BimSimState& x, const BimSimState& y) {
     // N.B. Explicitly check EVERYTHING you are interested in!!!!!!!
     // This is a sneaky bug hotspot.
-    return x.type != y.type || std::abs(x.temperature - y.temperature) > 0.0001;
+    double tolerance = 0.0001;
+    return x.type != y.type || std::abs(x.temperature - y.temperature) > tolerance;
 }
 
 /**
