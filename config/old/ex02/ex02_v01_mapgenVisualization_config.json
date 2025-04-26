@@ -7,17 +7,17 @@
       "cells": {
         "default": {
           "delay": "inertial",
-          "model": "mapgen",
+          "model": "bimsim",
           "state": { 
             "terrain": 0,
             "land_birth_limit": 6,
             "land_death_limit": 4,
             "forest_death_limit": 3,
             "sand_death_limit": 3,
-            "forest_base_rate": 0.05,
-            "forest_multiplier": 0.02,
-            "sand_base_rate": 0.18,
-            "sand_multiplier": 0.10
+            "forest_base_rate": 0.10,
+            "forest_multiplier": 0.05,
+            "sand_base_rate": 0.15,
+            "sand_multiplier": 0.05
           },
           "neighborhood": [
             { "type": "moore", "range": 1 }
@@ -50,6 +50,7 @@
           [ 0,19], [ 1,19], [ 2,19], [ 3,19], [ 4,19], [ 5,19], [ 6,19], [ 7,19], [ 8,19], [ 9,19], [10,19], [11,19], [12,19], [13,19], [14,19], [15,19], [16,19], [17,19], [18,19], [19,19]
 
           ]
+
         },
         "forest": {
           "state": { "terrain": 2 }

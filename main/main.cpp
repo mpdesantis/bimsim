@@ -14,32 +14,32 @@
 #include <cadmium/simulation/root_coordinator.hpp>
 
 // Models
-#include "include/mapgenCell.hpp"
+#include "include/bimsimCell.hpp"
 
 using namespace cadmium::celldevs;
 using namespace cadmium;
 
 // Print help menu
 void printHelp() {
-    std::cout << "\n\t*** Cell-DEVS Map Generation Utility ***\n";
-    std::cout << "\nUsage: map_generation [OPTIONS]";
+    std::cout << "\n\t*** Cell-DEVS BIM Simulator Utility ***\n";
+    std::cout << "\nUsage: bimsim [OPTIONS]";
     std::cout << "\n\nOptions:";
     std::cout << "\n  --config, -c     FILE   Take configuration from FILE.";
-    std::cout << "\n                            Default: config/mapgen_config.json";
+    std::cout << "\n                            Default: config/bimsim_config.json";
     std::cout << "\n  --duration, -d   NUM    Execute simulation for NUM time units.";
     std::cout << "\n                            Default: 20";
     std::cout << "\n  --output, -o     FILE   Log CSV output to FILE.";
-    std::cout << "\n                            Default: output/mapgen_grid_log.csv";
+    std::cout << "\n                            Default: output/bimsim_grid_log.csv";
     std::cout << "\n  --help, -h              Print this menu and exit.";
     std::cout << std::endl;
 }
 
 // Model
-std::shared_ptr<GridCell<MapgenState, double>> addGridCell(const coordinates & cellId, const std::shared_ptr<const GridCellConfig<MapgenState, double>>& cellConfig) {
+std::shared_ptr<GridCell<BimSimState, double>> addGridCell(const coordinates & cellId, const std::shared_ptr<const GridCellConfig<BimSimState, double>>& cellConfig) {
     auto cellModel = cellConfig->cellModel;
 
-    if (cellModel == "mapgen") {
-        return std::make_shared<mapgen>(cellId, cellConfig);
+    if (cellModel == "bimsim") {
+        return std::make_shared<bimsim>(cellId, cellConfig);
     } else {
         throw std::bad_typeid();
     }
@@ -49,9 +49,9 @@ std::shared_ptr<GridCell<MapgenState, double>> addGridCell(const coordinates & c
 int main(int argc, char ** argv) {
 
     /* Constants */
-    const std::string DEFAULT_CONFIG_FILE_PATH = "config/mapgen_config.json";
+    const std::string DEFAULT_CONFIG_FILE_PATH = "config/bimsim_config.json";
     constexpr int DEFAULT_SIM_TIME = 20;
-    const std::string DEFAULT_OUTPUT_FILE_PATH = "output/mapgen_grid_log.csv";
+    const std::string DEFAULT_OUTPUT_FILE_PATH = "output/bimsim_grid_log.csv";
 
     /* Defaults */
     std::string configFilePath = DEFAULT_CONFIG_FILE_PATH;
@@ -113,7 +113,7 @@ int main(int argc, char ** argv) {
     std::cout << std::endl;
 
     /* Models */
-    auto model = std::make_shared<GridCellDEVSCoupled<MapgenState, double>>("mapgen", addGridCell, configFilePath);
+    auto model = std::make_shared<GridCellDEVSCoupled<BimSimState, double>>("bimsim", addGridCell, configFilePath);
     model->buildModel();
     
     /* Logs */

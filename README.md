@@ -30,7 +30,7 @@ This repository's contents.
 * `img/`
     - Directory containing images for this repository, as included inline in the project report.
 * `main/`
-    - C++ source and header files for this repository's main code module, `map_generation`.
+    - C++ source and header files for this repository's main code module, `bimsim`.
 * `output/`
     - Generated directory containing output logs from model simulation.
 * `run_all_examples.sh`
@@ -59,7 +59,7 @@ To build this project, issue the following command:
 ```sh
 $ . build_sim.sh
 ```
-Find the resultant binary at `bin/map_generation`.
+Find the resultant binary at `bin/bimsim`.
 
 ### Configure an Experiment for Simulation
 To configure a sample experiment for simulation, you may copy and modify the template configuration files provided in `config/templates/`. For examples, see `config/ex01/`, `config/ex02/`, and `config/ex03/`.
@@ -67,13 +67,13 @@ To configure a sample experiment for simulation, you may copy and modify the tem
 ### Execute Custom Simulation
 Tp see a list of runtime options and defaults for this project's binary, issue the following command:
 ```sh
-$ ./bin/map_generation [-h | --help]
+$ ./bin/bimsim [-h | --help]
 ```
 For example, an invocation with all three parameters receiving arguments may look as follows:
 ```sh
-$ ./bin/map_generation \
-  --config config/ex01/ex01_v01_mapgen_config.json \    
-  --output output/ex01_v01_mapgen_grid_log.csv \ 
+$ ./bin/bimsim \
+  --config config/ex01/ex01_v01_bimsim_config.json \    
+  --output output/ex01_v01_bimsim_grid_log.csv \ 
   --duration 20                           
 ```
 

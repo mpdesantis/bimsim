@@ -7,7 +7,7 @@
       "cells": {
         "default": {
           "delay": "inertial",
-          "model": "mapgen",
+          "model": "bimsim",
           "state": { 
             "terrain": 0,
             "land_birth_limit": 6,

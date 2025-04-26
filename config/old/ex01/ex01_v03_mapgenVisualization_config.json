@@ -1,30 +1,30 @@
 {
-  "scenario": {
-    "shape": [20, 20],
-    "origin": [0, 0],
-    "wrapped": false
-  },
-  "cells": {
-    "default": {
-      "delay": "inertial",
-      "model": "mapgen",
-      "state": { 
-        "terrain": 0,
-        "land_birth_limit": 6,
-        "land_death_limit": 4,
-        "forest_death_limit": 3,
-        "sand_death_limit": 3,
-        "forest_base_rate": 0.05,
-        "forest_multiplier": 0.02,
-        "sand_base_rate": 0.18,
-        "sand_multiplier": 0.10
+    "scenario": {
+        "shape": [20, 20],
+        "origin": [0, 0],
+        "wrapped": false
       },
-      "neighborhood": [
-        { "type": "moore", "range": 1 }
-      ]
-    },
-    "land": {
-      "state": { "terrain": 1 },
+      "cells": {
+        "default": {
+          "delay": "inertial",
+          "model": "bimsim",
+          "state": { 
+            "terrain": 0,
+            "land_birth_limit": 6,
+            "land_death_limit": 4,
+            "forest_death_limit": 3,
+            "sand_death_limit": 3,
+            "forest_base_rate": 0.05,
+            "forest_multiplier": 0.02,
+            "sand_base_rate": 0.18,
+            "sand_multiplier": 0.10
+          },
+          "neighborhood": [
+            { "type": "moore", "range": 1 }
+          ]
+        },
+        "land": {
+          "state": { "terrain": 1 },
           "cell_map": [ 
 
                                                                                                                                                                                              
@@ -49,12 +49,19 @@
                                                                                                                                                                                             
 
           ]
+        },
+        "forest": {
+          "state": { "terrain": 2 }
+        },
+        "sand": {
+          "state": { "terrain": 3 }
+        }
     },
-    "forest": {
-      "state": { "terrain": 2 }
-    },
-    "sand": {
-      "state": { "terrain": 3 }
-    }
-  }
+    "viewer": [
+            {
+              "colors": [[51, 153, 255], [0, 204, 0], [0, 102, 0], [255, 255, 204]],
+              "breaks": [0, 0.5, 1.5, 2.5, 3.5],
+              "field": "terrain"
+            }
+    ]
 }

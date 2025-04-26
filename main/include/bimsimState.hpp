@@ -1,5 +1,5 @@
-#ifndef MAPGEN_STATE_HPP
-#define MAPGEN_STATE_HPP
+#ifndef BIMSIM_STATE_HPP
+#define BIMSIM_STATE_HPP
 
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -7,7 +7,7 @@
 /**
  * Enum for easy state representation.
  */
-enum MapgenStateName {
+enum BimSimStateName {
     WATER,  // 0
     LAND,   // 1
     FOREST, // 2
@@ -18,7 +18,7 @@ enum MapgenStateName {
 /**
  * Atomic model cell state variables.
  */
-struct MapgenState {
+struct BimSimState {
     /**
      * Members
      */
@@ -35,7 +35,7 @@ struct MapgenState {
     /**
      * Constructor
      */
-    MapgenState() : terrain(MapgenStateName::WATER)
+    BimSimState() : terrain(BimSimStateName::WATER)
         , land_birth_limit(6)
         , land_death_limit(4)
         , forest_death_limit(3)
@@ -50,14 +50,14 @@ struct MapgenState {
 /**
  * operator<< overload definition.
  *
- * Defines the output format of the MapgenState enum class in order to
+ * Defines the output format of the BimSimState enum class in order to
  * print the cell state.
  *  <0> : WATER
  *  <1> : LAND
  *  <2> : FOREST
  *  <3> : SAND
  */
-std::ostream& operator<<(std::ostream& os, const MapgenState& s) {
+std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
     os << "<" << s.terrain << ">";
     return os;
 }
@@ -67,14 +67,14 @@ std::ostream& operator<<(std::ostream& os, const MapgenState& s) {
  *
  * Enables simulator to check for equality between two state objects.
  */
-bool operator!=(const MapgenState& x, const MapgenState& y) {
+bool operator!=(const BimSimState& x, const BimSimState& y) {
     return x.terrain != y.terrain;
 }
 
 /**
  * Parse a JSON file to populate a cell's state.
  */
-void from_json(const nlohmann::json& j, MapgenState& s) {
+void from_json(const nlohmann::json& j, BimSimState& s) {
     // terrain
     j.at("terrain").get_to(s.terrain);
     j.at("land_birth_limit").get_to(s.land_birth_limit);
@@ -87,4 +87,4 @@ void from_json(const nlohmann::json& j, MapgenState& s) {
     j.at("sand_multiplier").get_to(s.sand_multiplier);
 }
 
-#endif // MAPGEN_STATE_HPP
+#endif // BIMSIM_STATE_HPP

@@ -7,17 +7,17 @@
   "cells": {
     "default": {
       "delay": "inertial",
-      "model": "mapgen",
+      "model": "bimsim",
       "state": { 
         "terrain": 0,
         "land_birth_limit": 6,
         "land_death_limit": 4,
         "forest_death_limit": 3,
         "sand_death_limit": 3,
-        "forest_base_rate": 0.18,
-        "forest_multiplier": 0.10,
-        "sand_base_rate": 0.10,
-        "sand_multiplier": 0.02
+        "forest_base_rate": 0.05,
+        "forest_multiplier": 0.02,
+        "sand_base_rate": 0.18,
+        "sand_multiplier": 0.10
       },
       "neighborhood": [
         { "type": "moore", "range": 1 }

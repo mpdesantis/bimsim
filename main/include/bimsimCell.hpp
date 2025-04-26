@@ -1,5 +1,5 @@
-#ifndef MAPGEN_CELL_HPP
-#define MAPGEN_CELL_HPP
+#ifndef BIMSIM_CELL_HPP
+#define BIMSIM_CELL_HPP
 
 // Standard
 #include <cmath>
@@ -13,7 +13,7 @@
 #include <cadmium/modeling/celldevs/grid/config.hpp>
 
 // Models
-#include "mapgenState.hpp"
+#include "bimsimState.hpp"
 
 using namespace cadmium::celldevs;
 
@@ -21,7 +21,7 @@ using namespace cadmium::celldevs;
 /**
  * Atomic Model Cell Definition
  */
-class mapgen : public GridCell<MapgenState, double> {
+class bimsim : public GridCell<BimSimState, double> {
 
     private:
 
@@ -37,15 +37,15 @@ class mapgen : public GridCell<MapgenState, double> {
     /**
      * Constructor
      */
-    mapgen(const std::vector<int>& id, 
-            const std::shared_ptr<const GridCellConfig<MapgenState, double>>& config
-          ): GridCell<MapgenState, double>(id, config) { }
+    bimsim(const std::vector<int>& id, 
+            const std::shared_ptr<const GridCellConfig<BimSimState, double>>& config
+          ): GridCell<BimSimState, double>(id, config) { }
 
     /**
      * Local Computation Function (tau)
      */
-    [[nodiscard]] MapgenState localComputation(MapgenState state,
-        const std::unordered_map<std::vector<int>, NeighborData<MapgenState, double>>& neighborhood) const override {
+    [[nodiscard]] BimSimState localComputation(BimSimState state,
+        const std::unordered_map<std::vector<int>, NeighborData<BimSimState, double>>& neighborhood) const override {
 
         /* Local Variables */
 
@@ -65,19 +65,19 @@ class mapgen : public GridCell<MapgenState, double> {
             auto nState = neighborData.state;
 
             // WATER neighbors
-            if(nState->terrain == MapgenStateName::WATER) {
+            if(nState->terrain == BimSimStateName::WATER) {
                 water_neighbors++;
             }
             // LAND neighbors
-            if(nState->terrain == MapgenStateName::LAND) {
+            if(nState->terrain == BimSimStateName::LAND) {
                 land_neighbors++;
             }
             // FOREST neighbors
-            if(nState->terrain == MapgenStateName::FOREST) {
+            if(nState->terrain == BimSimStateName::FOREST) {
                 forest_neighbors++;
             }
             // SAND neighbors
-            if(nState->terrain == MapgenStateName::SAND) {
+            if(nState->terrain == BimSimStateName::SAND) {
                 sand_neighbors++;
             }
         }
@@ -85,7 +85,7 @@ class mapgen : public GridCell<MapgenState, double> {
         /* Mutate State Based on Rules and Return */
 
         // Case: WATER cell
-        if(state.terrain == MapgenStateName::WATER) {
+        if(state.terrain == BimSimStateName::WATER) {
             // Uncount this cell from its own neighborhood tally
             water_neighbors--; 
             // Tally the alive (ie. non-WATER neighbors) for rule use
@@ -94,12 +94,12 @@ class mapgen : public GridCell<MapgenState, double> {
             // Case: WATER --> LAND
             if(non_water_neighbors > state.land_birth_limit) {
                 // A LAND cell is born
-                state.terrain = MapgenStateName::LAND; 
+                state.terrain = BimSimStateName::LAND; 
             }
         } 
 
         // Case: LAND cell
-        else if (state.terrain == MapgenStateName::LAND) {
+        else if (state.terrain == BimSimStateName::LAND) {
             // Uncount this cell from its own neighborhood tally
             land_neighbors--; 
             // Tally the alive (ie. non-WATER neighbors) for rule use
@@ -108,7 +108,7 @@ class mapgen : public GridCell<MapgenState, double> {
             // Case: LAND --> WATER
             if(non_water_neighbors < state.land_death_limit) {
                 // A LAND cell dies
-                state.terrain = MapgenStateName::WATER;
+                state.terrain = BimSimStateName::WATER;
             }
 
             // Case: LAND --> SAND | LAND
@@ -125,7 +125,7 @@ class mapgen : public GridCell<MapgenState, double> {
                 // Case: This cell is below threshold, so it becomes SAND
                 if (r <= sand_threshold) {
                     // A SAND cell is born
-                    state.terrain = MapgenStateName::SAND;
+                    state.terrain = BimSimStateName::SAND;
                 }
                 // Case: This cell remains LAND
             }
@@ -144,7 +144,7 @@ class mapgen : public GridCell<MapgenState, double> {
                 // Case: This cell is below threshold, so it becomes FOREST
                 if (r <= forest_threshold) {
                     // A FOREST cell is born
-                    state.terrain = MapgenStateName::FOREST;
+                    state.terrain = BimSimStateName::FOREST;
                 }
                 // Case: This cell remains LAND
             }
@@ -153,7 +153,7 @@ class mapgen : public GridCell<MapgenState, double> {
 
         // Case: FOREST cell
         // FOREST can only revert to LAND
-        else if (state.terrain == MapgenStateName::FOREST) {
+        else if (state.terrain == BimSimStateName::FOREST) {
             // Uncount this cell from its own neighborhood tally
             forest_neighbors--; 
             // Tally the alive (ie. non-WATER neighbors) for rule use
@@ -163,13 +163,13 @@ class mapgen : public GridCell<MapgenState, double> {
             // If too much WATER nearby, revert to LAND
             if(water_neighbors > state.forest_death_limit) {
                 // A FOREST cell reverts to LAND
-                state.terrain = MapgenStateName::LAND;
+                state.terrain = BimSimStateName::LAND;
             }
         }
 
         // Case: SAND cell
         // SAND can only revert to LAND
-        else if (state.terrain == MapgenStateName::SAND) {
+        else if (state.terrain == BimSimStateName::SAND) {
             // Uncount this cell from its own neighborhood tally
             sand_neighbors--; 
             // Tally the alive (ie. non-WATER neighbors) for rule use
@@ -179,7 +179,7 @@ class mapgen : public GridCell<MapgenState, double> {
             // If not enough WATER nearby, revert to LAND
             if(water_neighbors < state.sand_death_limit) {
                 // A SAND cell reverts to LAND
-                state.terrain = MapgenStateName::LAND;
+                state.terrain = BimSimStateName::LAND;
             }
         }
 
@@ -191,7 +191,7 @@ class mapgen : public GridCell<MapgenState, double> {
     /**
      * Delay function (D)
      */
-    [[nodiscard]] double outputDelay(const MapgenState& state) const override {
+    [[nodiscard]] double outputDelay(const BimSimState& state) const override {
         return DEFAULT_DELAY_TIME;
     }
 
@@ -204,6 +204,14 @@ class mapgen : public GridCell<MapgenState, double> {
         std::uniform_real_distribution<> dis(0.0, 1.0);
         return dis(gen);
     }
+
+    /**
+     * Update temperature
+     */
+    double updateTemperature(const BimSimState& state) const {     
+        double newTemperature;
+        return 1.0; 
+    }
 };
 
-#endif // MAPGEN_CELL_HPP
+#endif // BIMSIM_CELL_HPP
