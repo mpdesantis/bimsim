@@ -79,7 +79,7 @@ PROTOTYPE_OUTPUT=${PROTOTYPE_DIR}/bimsim_grid_log.csv
 echo -e "Executing all simulation examples...\n"
 
 echo -e "Executing simulation prototype...\n"
-${SIMULATION_BINARY} -c ${PROTOTYPE_CONFIG} -o ${PROTOTYPE_OUTPUT}
+${SIMULATION_BINARY} -c ${PROTOTYPE_CONFIG} -o ${PROTOTYPE_OUTPUT} -d 50
 
 # Ex01
 #echo -e "Executing simulation example 01...\n"

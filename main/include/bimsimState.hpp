@@ -16,7 +16,7 @@ enum BimSimStateName {
     EMPTY_HOT_5,   // 5
     EMPTY_HOT_6,   // 6
     WALL,          // 7     
-    SENSOR,        // 8
+    OCCUPANT,      // 8
     HEATER,        // 9
     WINDOW         // 10
 };

@@ -13,7 +13,7 @@
         "temperature": 22.22
       },
       "neighborhood": [
-        { "type": "moore", "range": 1 }
+        { "type": "moore", "range": 2 }
       ]
     },
     "empty_cold_0": {
@@ -60,7 +60,7 @@
 
       ]
     },
-    "sensor": {
+    "occupant": {
       "state": { "type": 8 },
       "cell_map": [ 
                  [ 3, 3]
