@@ -10,7 +10,7 @@
       "model": "bimsim",
       "state": { 
         "type": 3,
-        "temperature": 22.22
+        "temperature": 22.50
       },
       "neighborhood": [
         { "type": "moore", "range": 1 }
@@ -64,7 +64,7 @@
         "type": 8 
       },
       "cell_map": [ 
-                 [ 5, 5]
+                 [ 5, 5], [11, 11]
       ]
     },
     "heater_on": {
