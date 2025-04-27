@@ -128,6 +128,10 @@ bool operator!=(const BimSimState& x, const BimSimState& y) {
 void from_json(const nlohmann::json& j, BimSimState& s) {
     j.at("type").get_to(s.type);
     j.at("temperature").get_to(s.temperature);
+    j.at("dissipation_min").get_to(s.dissipation_min);
+    j.at("dissipation_max").get_to(s.dissipation_max);
+    j.at("generation_min").get_to(s.generation_min);
+    j.at("generation_max").get_to(s.generation_max);
 }
 
 #endif // BIMSIM_STATE_HPP
