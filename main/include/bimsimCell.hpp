@@ -82,16 +82,24 @@ class bimsim : public GridCell<BimSimState, double> {
             // Accumulate neighbours for temperature averaging calculation
             neighbours++;
             // Accumulate occupant neighbours for sensor use in controlling heaters
-            if (nState->type == BimSimStateName::OCCUPANT) {
+            if (nState->type == BimSimStateName::OCCUPANT_COMFORTABLE || nState->type == BimSimStateName::OCCUPANT_UNCOMFORTABLE) {
                 occupant_neighbours++;
             }
+            // Accumulate neighbour temperatures
             neighbourhood_temperature += nState->temperature;
 
         }
 
         /* Mutate State Based on Rules and Return */
 
-        // Case: EMPTY cell [0, 7]
+        // Case: Empty cells
+        // 0  EMPTY_COLD_0             #b3b3ff    [179, 179, 255]
+        // 1  EMPTY_COLD_1             #ccccff    [204, 204, 255]
+        // 2  EMPTY_COLD_2             #e6e6ff    [230, 230, 255]
+        // 3  EMPTY_OK_3               #ffffff    [255, 255, 255]    
+        // 4  EMPTY_HOT_4              #ffe6e6    [255, 230, 230]
+        // 5  EMPTY_HOT_5              #ffcccc    [255, 204, 204]
+        // 6  EMPTY_HOT_6              #ffb3b3    [255, 179, 179]
         if(state.type >= BimSimStateName::EMPTY_COLD_0 && state.type <= BimSimStateName::EMPTY_HOT_6) {
             // Take the average neighbourhood temperature as the new cell temperature
             state.temperature = neighbourhood_temperature / neighbours;
@@ -100,7 +108,21 @@ class bimsim : public GridCell<BimSimState, double> {
             // Update the state based on new temperature (for visualization)
             updateEmptyCellStateByTemperature(state);
         } 
-        // Case: HEATER cell [9, 10]
+        // Case: Occupants
+        // 7  OCCUPANT_COMFORTABLE     #ffff66    [255, 255, 102]
+        // 8  OCCUPANT_UNCOMFORTABLE   #cc33ff    [204,  51, 255]
+        else if(state.type == BimSimStateName::OCCUPANT_COMFORTABLE || state.type == BimSimStateName::OCCUPANT_UNCOMFORTABLE) {
+            // Take the average neighbourhood temperature as the new cell temperature
+            state.temperature = neighbourhood_temperature / neighbours;
+            // Apply heat dissipation
+            state.temperature -= dissipate();
+            // Update the state based on climate comfort level
+            updateOccupantCellState(state);
+
+        }
+        // Case: Heaters
+        // 9  HEATER_ON                #ff0002    [255,   0,   0]
+        // 10 HEATER_OFF               #ffad33    [255, 173,  51]
         // N.B. Remember that HEATER cells have extended Moore neighbourhoods (r=4)
         else if(state.type == BimSimStateName::HEATER_ON || state.type == BimSimStateName::HEATER_OFF) {
 
@@ -127,7 +149,8 @@ class bimsim : public GridCell<BimSimState, double> {
             // Turn the heater ON or OFF as required
             updateHeaterCellState(state, occupant_neighbours);
         } 
-        // Case: WALL cell 
+        // Case: Wall
+        // 11 WALL                     #000000    [  0,   0,   0]
         else if(state.type == BimSimStateName::WALL) {
             // Take the average neighbourhood temperature as the new cell temperature
             state.temperature = neighbourhood_temperature / neighbours;
@@ -136,7 +159,8 @@ class bimsim : public GridCell<BimSimState, double> {
             // Apply external wall heat dissipation
             state.temperature -= dissipate(0.50, 1.00); // TODO: constants
         }
-        // Case: WINDOW cell 
+        // Case: Window
+        // 12 WINDOW                   #ced4db    [206, 212, 219]
         else if(state.type == BimSimStateName::WINDOW) {
             // Take the average neighbourhood temperature as the new cell temperature
             state.temperature = neighbourhood_temperature / neighbours;
@@ -222,7 +246,7 @@ class bimsim : public GridCell<BimSimState, double> {
     }
 
     /**
-     * Update (mutate) state of HEATER cells based on temperature targets.
+     * Update (mutate) state of HEATER cells based on occupancy and temperature targets.
      */
     void updateHeaterCellState(BimSimState& state, int occupants) const {     
 
@@ -235,6 +259,21 @@ class bimsim : public GridCell<BimSimState, double> {
         else {
             state.type = BimSimStateName::HEATER_OFF;
             //std::cout << "HEATER ON" << std::endl;
+        }
+    }
+
+    /**
+     * Update (mutate) state of OCCUPANT cells based on temperature targets.
+     */
+    void updateOccupantCellState(BimSimState& state) const {     
+
+        // Occupant is within climate comfort zone
+        if (state.temperature >= MIN_TARGET_TEMP && state.temperature <= MAX_TARGET_TEMP) {
+            state.type = BimSimStateName::OCCUPANT_COMFORTABLE;
+        }
+        // Occupant is not within climate comfort zone
+        else {
+            state.type = BimSimStateName::OCCUPANT_UNCOMFORTABLE;
         }
     }
 
