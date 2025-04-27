@@ -13,7 +13,7 @@
         "temperature": 22.50
       },
       "neighborhood": [
-        { "type": "moore", "range": 3 }
+        { "type": "moore", "range": 4 }
       ]
     },
     "empty_cold_0": {
@@ -72,10 +72,7 @@
     "heater_on": {
       "state": { 
         "type": 9
-      },
-      "neighborhood": [
-        { "type": "moore", "range": 4 }
-      ]
+      }
     },
     "heater_off": {
       "state": { 
@@ -84,9 +81,6 @@
       "cell_map": [ 
         [ 5, 5], [14, 5], [23, 5], [32, 5],
         [ 5,16], [14,16], [23,16], [32,16]
-      ],
-      "neighborhood": [
-        { "type": "moore", "range": 4 }
       ]
     },
     "wall": {
