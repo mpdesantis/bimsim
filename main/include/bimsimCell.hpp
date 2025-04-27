@@ -31,20 +31,10 @@ private:
 
     // Delay time units
     static constexpr double DEFAULT_DELAY_TIME = 1.00;
-    // External temperature (can't be colder than this!)
-    //static constexpr double EXTERNAL_TEMP = 10.00;
-    // Target temperatures
+    // Target temperature range for occupant comfort
     static constexpr double MIN_TARGET_TEMP = 21.00;
     static constexpr double MAX_TARGET_TEMP = 24.00;
     static constexpr double TARGET_TEMP = (MAX_TARGET_TEMP + MIN_TARGET_TEMP) / 2;
-    // Temperature step for state categorization
-    //static constexpr double TEMP_STEP = 1.00; // Step for up and down the state scale
-    // Heater temperature contribution
-    // N.B. This looks like a lot, but it diffuses rapidly
-    //static constexpr double HEATER_TEMP_INCREASE = 100.00;
-    // Dissipation bounds - may relocate to cell properties for easier configuration
-    //static constexpr double DISSIPATION_MIN = 0.10;
-    //static constexpr double DISSIPATION_MAX = 0.20;
 
 public:
 
