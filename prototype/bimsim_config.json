@@ -10,14 +10,10 @@
       "model": "bimsim",
       "state": { 
         "type": 3,
-        "temperature": 22.50,
-        "dissipation_min": 0.10,
-        "dissipation_max": 0.20,
-        "generation_min": 0.00,
-        "generation_max": 0.00
+        "temperature": 22.50
       },
       "neighborhood": [
-        { "type": "moore", "range": 1 }
+        { "type": "moore", "range": 3 }
       ]
     },
     "empty_cold_0": {
@@ -57,9 +53,7 @@
     },
     "occupant_comfortable": {
       "state": { 
-        "type": 7,
-        "generation_min": 1.00,
-        "generation_max": 2.00
+        "type": 7
       },
       "cell_map": [ 
                  [ 4, 4]
@@ -67,9 +61,7 @@
     },
     "occupant_uncomfortable": {
       "state": { 
-        "type": 8,
-        "generation_min": 1.00,
-        "generation_max": 2.00
+        "type": 8
       },
       "cell_map": [ 
                  [ 5, 5], [11, 11]
@@ -77,9 +69,7 @@
     },
     "heater_on": {
       "state": { 
-        "type": 9,
-        "generation_min": 80,
-        "generation_max": 100
+        "type": 9
       },
       "cell_map": [ 
                  [ 6, 6], [12, 12]
@@ -100,9 +90,7 @@
     },
     "wall": {
       "state": { 
-        "type": 11,
-        "dissipation_min": 1.00,
-        "dissipation_max": 2.00
+        "type": 11
       },
       "cell_map": [ 
 
@@ -127,11 +115,7 @@
     },
     "window": {
       "state": { 
-        "type": 12,
-        "dissipation_min": 2.00,
-        "dissipation_max": 4.00,
-        "generation_min": 0.10,
-        "generation_max": 0.20
+        "type": 12
       },
       "cell_map": [ 
                  [ 3, 15], [ 6, 15]

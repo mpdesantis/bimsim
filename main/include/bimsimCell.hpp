@@ -35,6 +35,20 @@ private:
     static constexpr double MIN_TARGET_TEMP = 21.00;
     static constexpr double MAX_TARGET_TEMP = 24.00;
     static constexpr double TARGET_TEMP = (MAX_TARGET_TEMP + MIN_TARGET_TEMP) / 2;
+    // Dissipation constants
+    static constexpr double DEFAULT_DISSIPATION_MIN = 0.10;
+    static constexpr double DEFAULT_DISSIPATION_MAX = 0.20;
+    static constexpr double WALL_DISSIPATION_MIN = 1.00;
+    static constexpr double WALL_DISSIPATION_MAX = 2.00;
+    static constexpr double WINDOW_DISSIPATION_MIN = 2.00;
+    static constexpr double WINDOW_DISSIPATION_MAX = 4.00;
+    // Generation constants
+    static constexpr double OCCUPANT_GENERATION_MIN = 0.20;
+    static constexpr double OCCUPANT_GENERATION_MAX = 0.30;
+    static constexpr double HEATER_GENERATION_MIN = 80.00;
+    static constexpr double HEATER_GENERATION_MAX = 120.00;
+    static constexpr double WINDOW_GENERATION_MIN = 0.10;
+    static constexpr double WINDOW_GENERATION_MAX = 0.20;
 
 public:
 
@@ -80,11 +94,6 @@ public:
 
         /* Mutate State Based on Rules and Return */
 
-        // Case: All Cells
-        // All cells may possibly perform heat dissipation or generation, depending
-        // on the dissipation and generation values supplied in configuration.
-        state.dissipate();
-        state.generate();
 
         // Case: Empty cells
         // 0  EMPTY_COLD_0             #b3b3ff    [179, 179, 255]
@@ -95,6 +104,8 @@ public:
         // 5  EMPTY_HOT_5              #ffcccc    [255, 204, 204]
         // 6  EMPTY_HOT_6              #ffb3b3    [255, 179, 179]
         if(state.type >= BimSimStateName::EMPTY_COLD_0 && state.type <= BimSimStateName::EMPTY_HOT_6) {
+            // Dissipate and/or generate heat as required
+            state.dissipate(DEFAULT_DISSIPATION_MIN, DEFAULT_DISSIPATION_MAX);
             // Update the state based on new temperature (for visualization)
             updateEmptyCellStateByTemperature(state);
         } 
@@ -102,22 +113,41 @@ public:
         // 7  OCCUPANT_COMFORTABLE     #ffff66    [255, 255, 102]
         // 8  OCCUPANT_UNCOMFORTABLE   #cc33ff    [204,  51, 255]
         else if(state.type == BimSimStateName::OCCUPANT_COMFORTABLE || state.type == BimSimStateName::OCCUPANT_UNCOMFORTABLE) {
+            // Dissipate and/or generate heat as required
+            state.dissipate(DEFAULT_DISSIPATION_MIN, DEFAULT_DISSIPATION_MAX);
+            state.generate(OCCUPANT_GENERATION_MIN, OCCUPANT_GENERATION_MAX);
             // Update the occupant's state based on climate comfort level
             updateOccupantCellState(state);
         }
-        // Case: Heaters
+        // Case: Active Heater
         // 9  HEATER_ON                #ff0002    [255,   0,   0]
-        // 10 HEATER_OFF               #ffad33    [255, 173,  51]
-        // N.B. Remember that HEATER cells have extended Moore neighbourhoods (r=4)
-        else if(state.type == BimSimStateName::HEATER_ON || state.type == BimSimStateName::HEATER_OFF) {
+        else if(state.type == BimSimStateName::HEATER_ON) {
+            // Dissipate and/or generate heat as required
+            state.dissipate(DEFAULT_DISSIPATION_MIN, DEFAULT_DISSIPATION_MAX);
+            state.generate(HEATER_GENERATION_MIN, HEATER_GENERATION_MAX);
             // Turn the heater ON or OFF as required
             updateHeaterCellState(state, occupant_neighbours);
         } 
-        // Case: Wall or Window
+        // Case: Unactive Heater
+        // 9  HEATER_OFF               #ff0002    [255,   0,   0]
+        else if(state.type == BimSimStateName::HEATER_OFF) {
+            // Dissipate and/or generate heat as required
+            state.dissipate(DEFAULT_DISSIPATION_MIN, DEFAULT_DISSIPATION_MAX);
+            // Turn the heater ON or OFF as required
+            updateHeaterCellState(state, occupant_neighbours);
+        } 
+        // Case: Wall
         // 11 WALL                     #000000    [  0,   0,   0]
+        else if(state.type == BimSimStateName::WALL) {
+            // Dissipate and/or generate heat as required
+            state.dissipate(WALL_DISSIPATION_MIN, WALL_DISSIPATION_MAX);
+        } 
+        // Case: Window
         // 12 WINDOW                   #ced4db    [206, 212, 219]
         else {
-            // Do nothing.
+            // Dissipate and/or generate heat as required
+            state.dissipate(WINDOW_DISSIPATION_MIN, WINDOW_DISSIPATION_MAX);
+            state.generate(WINDOW_GENERATION_MIN, WINDOW_GENERATION_MAX);
         }
 
         // Return the (possibly) mutated state, with its temperature retained
@@ -182,6 +212,7 @@ public:
      * Update (mutate) state of HEATER cells based on occupancy and temperature targets.
      */
     void updateHeaterCellState(BimSimState& state, int occupants) const {     
+
         // If zone occupied and strictly less than target temperature, heater ON
         if (state.temperature < TARGET_TEMP && occupants)  {
             state.type = BimSimStateName::HEATER_ON;
