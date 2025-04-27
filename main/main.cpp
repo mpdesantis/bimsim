@@ -50,7 +50,7 @@ int main(int argc, char ** argv) {
 
     /* Constants */
     const std::string DEFAULT_CONFIG_FILE_PATH = "config/bimsim_config.json";
-    constexpr int DEFAULT_SIM_TIME = 20;
+    constexpr int DEFAULT_SIM_TIME = 96;
     const std::string DEFAULT_OUTPUT_FILE_PATH = "output/bimsim_grid_log.csv";
 
     /* Defaults */
