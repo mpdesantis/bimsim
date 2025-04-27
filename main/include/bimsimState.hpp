@@ -33,20 +33,57 @@ struct BimSimState {
     /**
      * Constants
      */
-    static constexpr double DEFAULT_TEMP = 22.777;
+    static constexpr double DEFAULT_TEMP = 22.5;
 
     /**
      * Members
      */
     int type;
     double temperature;
+    double dissipation_min;
+    double dissipation_max;
+    double generation_min;
+    double generation_max;
 
     /**
      * Constructor
      */
     BimSimState() : type(BimSimStateName::EMPTY_OK_3)
         , temperature(DEFAULT_TEMP)
+        , dissipation_min(0.0)
+        , dissipation_max(0.0)
+        , generation_min(0.0)
+        , generation_max(0.0)
     {}
+
+    /**
+     * Methods
+     */
+
+    /**
+     * Passively dissipate heat
+     */
+    void dissipate() {     
+        temperature -= randomDouble(dissipation_min, dissipation_max);
+    }
+    
+    /**
+     * Actively generate heat
+     */
+    void generate() {     
+        temperature += randomDouble(generation_min, generation_max);
+    }
+
+    /**
+     * Get a random double in limits
+     */
+    double randomDouble(double min, double max) const {     
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis(min, max);
+        return dis(gen);
+    }
+
 };
 
 /**
