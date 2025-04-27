@@ -21,7 +21,7 @@
 #
 ###############################################################################
 # Author: M. De Santis
-# Date: 2025/03/23
+# Date: 2025/04/26
 ###############################################################################
 
 set -e
@@ -68,11 +68,6 @@ EX03_V02_DIR=${EX03_DIR}/v02
 EX03_V02_CONFIG=${EX03_V02_DIR}/ex03_v02_bimsim_config.json
 EX03_V02_OUTPUT=${EX03_V02_DIR}/ex03_v02_bimsim_grid_log.csv
 
-# Prototype
-# PROTOTYPE_DIR=${PWD}/prototype
-# PROTOTYPE_CONFIG=${PROTOTYPE_DIR}/bimsim_config.json
-# PROTOTYPE_OUTPUT=${PROTOTYPE_DIR}/bimsim_grid_log.csv
-
 
 ###############################################################################
 # Run all simulation examples
@@ -80,17 +75,17 @@ echo -e "Executing all simulation examples...\n"
 
 # Ex01
 #echo -e "Executing simulation example 01...\n"
-#${SIMULATION_BINARY} -c ${EX01_V01_CONFIG} -o ${EX01_V01_OUTPUT} -d ${DEFAULT_SIM_TIME} 
-#${SIMULATION_BINARY} -c ${EX01_V02_CONFIG} -o ${EX01_V02_OUTPUT} -d ${DEFAULT_SIM_TIME}
+${SIMULATION_BINARY} -c ${EX01_V01_CONFIG} -o ${EX01_V01_OUTPUT} -d ${DEFAULT_SIM_TIME} 
+${SIMULATION_BINARY} -c ${EX01_V02_CONFIG} -o ${EX01_V02_OUTPUT} -d ${DEFAULT_SIM_TIME}
 
 # Ex02
 #echo -e "Executing simulation example 02...\n"
-#${SIMULATION_BINARY} -c ${EX02_V01_CONFIG} -o ${EX02_V01_OUTPUT} -d ${DEFAULT_SIM_TIME}
-#${SIMULATION_BINARY} -c ${EX02_V02_CONFIG} -o ${EX02_V02_OUTPUT} -d ${DEFAULT_SIM_TIME}
+${SIMULATION_BINARY} -c ${EX02_V01_CONFIG} -o ${EX02_V01_OUTPUT} -d ${DEFAULT_SIM_TIME}
+${SIMULATION_BINARY} -c ${EX02_V02_CONFIG} -o ${EX02_V02_OUTPUT} -d ${DEFAULT_SIM_TIME}
 
 # Ex03
 #echo -e "Executing simulation example 03...\n"
-#${SIMULATION_BINARY} -c ${EX03_V01_CONFIG} -o ${EX03_V01_OUTPUT} -d ${DEFAULT_SIM_TIME}
-#${SIMULATION_BINARY} -c ${EX03_V02_CONFIG} -o ${EX03_V02_OUTPUT} -d ${DEFAULT_SIM_TIME}
+${SIMULATION_BINARY} -c ${EX03_V01_CONFIG} -o ${EX03_V01_OUTPUT} -d ${DEFAULT_SIM_TIME}
+${SIMULATION_BINARY} -c ${EX03_V02_CONFIG} -o ${EX03_V02_OUTPUT} -d ${DEFAULT_SIM_TIME}
 
 echo -e "\n--- YOU EXECUTED ---"
