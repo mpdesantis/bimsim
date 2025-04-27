@@ -75,19 +75,15 @@ class bimsim : public GridCell<BimSimState, double> {
         for (const auto& [neighborId, neighborData]: neighborhood) {
             // State of the neighbor cell for this iteration
             auto nState = neighborData.state;
-
-            // DEBUG
-            //std::cout << "\n\tNeighbour " << neighbours << ": [" << neighborId << "]";
-
             // Accumulate neighbours for temperature averaging calculation
             neighbours++;
             // Accumulate occupant neighbours for sensor use in controlling heaters
-            if (nState->type == BimSimStateName::OCCUPANT_COMFORTABLE || nState->type == BimSimStateName::OCCUPANT_UNCOMFORTABLE) {
+            if (nState->type == BimSimStateName::OCCUPANT_COMFORTABLE || 
+                nState->type == BimSimStateName::OCCUPANT_UNCOMFORTABLE) {
                 occupant_neighbours++;
             }
             // Accumulate neighbour temperatures
             neighbourhood_temperature += nState->temperature;
-
         }
 
         /* Mutate State Based on Rules and Return */
@@ -125,18 +121,10 @@ class bimsim : public GridCell<BimSimState, double> {
         // 10 HEATER_OFF               #ffad33    [255, 173,  51]
         // N.B. Remember that HEATER cells have extended Moore neighbourhoods (r=4)
         else if(state.type == BimSimStateName::HEATER_ON || state.type == BimSimStateName::HEATER_OFF) {
-
-            // Take the average neighbourhood temperature as the new cell temperature.
+            // Take the average neighbourhood temperature as the new cell temperature
             state.temperature = neighbourhood_temperature / neighbours;
             // Apply heat dissipation
             state.temperature -= dissipate();
-
-            // DEBUG
-            //std::cout << state.type << ":" 
-            //          << "\n\tCurrent Temperature: " << state.temperature
-            //          << "\n\tTarget Temperature:  " << TARGET_TEMP
-            //          << std::endl;
-            //
             // Case: HEATER_ON, so supply heat
             if(state.type == BimSimStateName::HEATER_ON) {
                 // Supply heat from heater
@@ -144,8 +132,6 @@ class bimsim : public GridCell<BimSimState, double> {
                 // Rather than incrementing it, use thermostat temp
                 //state.temperature = TARGET_TEMP;
             }
-
-
             // Turn the heater ON or OFF as required
             updateHeaterCellState(state, occupant_neighbours);
         } 
@@ -249,16 +235,13 @@ class bimsim : public GridCell<BimSimState, double> {
      * Update (mutate) state of HEATER cells based on occupancy and temperature targets.
      */
     void updateHeaterCellState(BimSimState& state, int occupants) const {     
-
         // If zone occupied and strictly less than target temperature, heater ON
         if (state.temperature < TARGET_TEMP && occupants)  {
             state.type = BimSimStateName::HEATER_ON;
-            //std::cout << "HEATER ON" << std::endl;
         }
         // If greater than target temperature, heater OFF
         else {
             state.type = BimSimStateName::HEATER_OFF;
-            //std::cout << "HEATER ON" << std::endl;
         }
     }
 
@@ -266,7 +249,6 @@ class bimsim : public GridCell<BimSimState, double> {
      * Update (mutate) state of OCCUPANT cells based on temperature targets.
      */
     void updateOccupantCellState(BimSimState& state) const {     
-
         // Occupant is within climate comfort zone
         if (state.temperature >= MIN_TARGET_TEMP && state.temperature <= MAX_TARGET_TEMP) {
             state.type = BimSimStateName::OCCUPANT_COMFORTABLE;
