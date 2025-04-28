@@ -1,7 +1,7 @@
 # README
 * Author: Michael De Santis
 * CUID: 101213450
-* Date: 2025/03/23
+* Date: 2025/04/26
 
 ## Description
 Modeling and Simulating Post-Pandemic Work Practices with Building Information Modeling (BIM) and Cell Discrete Event System Specifications (Cell-DEVS). For additional information, please see the `doc/` directory.
@@ -22,19 +22,19 @@ This repository's contents.
 * `doc/`
     - Directory containing documentation for this repository.
         1. Report: `REPORT.pdf`
-        2. docs
 * `env.sh`
     - Shell script defining additional environment variables for this repository.
-* `example-output/`
-    - Directory containing sample output logs from model simulation, accompanied by the corresponding visualization files (images and videos).
+* `sample-results/`
+    - Directory containing sample output logs from model simulation, accompanied by the corresponding visualization files (images and videos). These results are referenced by the project report.
 * `img/`
     - Directory containing images for this repository, as included inline in the project report.
 * `main/`
     - C++ source and header files for this repository's main code module, `bimsim`.
 * `output/`
-    - Generated directory containing output logs from model simulation.
+    - Generated directory containing output logs from model simulation (unless a different directory is specified upon binary invocation).
+    - For sample results of predefined examples in `examples/`, see `sample-results/`.
 * `run_all_examples.sh`
-    - Shell script to run all available simulation examples from pre-defined configuration.
+    - Shell script to run all available simulation examples in `examples/` from pre-defined configuration. 
     
 ## Usage
 Usage instructions for this project and repository.
@@ -47,9 +47,9 @@ $ git submodule update --init --recursive
 Once the `cadmium_v2` sudmodule directory is available on your file system, enter that directory and follow the instructions provided therein for installation and configuration.  Once complete, you should be able to verify that your configuration is correct with the output of the following command:
 ```sh
 $ echo $CADMIUM
-<path-to>/Map_Generation/cadmium_v2/include
+<path-to>/bimsim/cadmium_v2/include
 ```
-If the above environment variable is discrepant on your system, you can overwrite it by sourcing `env.sh` in this directory with the following command:
+If the above environment variable is discrepant on your system, you may overwrite it by sourcing `env.sh` in this directory with the following command:
 ```sh
 $ . env.sh
 ```
@@ -62,7 +62,7 @@ $ . build_sim.sh
 Find the resultant binary at `bin/bimsim`.
 
 ### Configure an Experiment for Simulation
-To configure a sample experiment for simulation, you may copy and modify the template configuration files provided in `config/templates/`. For examples, see `config/ex01/`, `config/ex02/`, and `config/ex03/`.
+To configure a sample experiment for simulation, you may copy and modify the template configuration file provided in `config/`. Additionally, you may modify any of the packaged experimental configuration files in `examples/`.
 
 ### Execute Custom Simulation
 Tp see a list of runtime options and defaults for this project's binary, issue the following command:
@@ -72,9 +72,9 @@ $ ./bin/bimsim [-h | --help]
 For example, an invocation with all three parameters receiving arguments may look as follows:
 ```sh
 $ ./bin/bimsim \
-  --config config/ex01/ex01_v01_bimsim_config.json \    
-  --output output/ex01_v01_bimsim_grid_log.csv \ 
-  --duration 20                           
+  --config examples/ex01/v01/ex01_v01_bimsim_config.json \    
+  --output examples/ex01/v01/ex01_v01_bimsim_grid_log.csv \ 
+  --duration 96
 ```
 
 ### Execute Examples
@@ -82,20 +82,19 @@ To execute this project's example simulations, issue the following command:
 ```sh
 $ ./run_all_examples.sh
 ```
-Upon successful execution, corresponding output for each simulation binary will be found in the `output/` directory.
-Results from a single execution, with corresponding visuals (images and video) may be found in the `example-output/` directory. These examples are referenced in the project report.
+Upon successful execution, corresponding output for each simulation binary will be found in the `examples/` subdirectory corresponding to that experiment.
+Results from a single execution, with corresponding configuration files and visuals (images and video) may be found in the `sample-results/` directory. These examples are referenced in the project report.
 
 ### Visualizing the Results
 Carleton's DEVSsim [Cell-DEVS Viewer](https://devssim.carleton.ca/cell-devs-viewer://devssim.carleton.ca/cell-devs-viewer/) may be used to visualize the simulations executed by this project's binary. To ensure your files are recognized by the visualizer, constrain your file names as follows:
 1. The JSON simulation configuration file:
     * `<name>_config.json`
-2. The JSON simulation visualization configuration file:
-    * `<name>Visualization_config.json`
-3. The CSV output grid log file:
+2. The CSV output grid log file:
     * `<name>_grid_log.csv`
 
 ## Notes
 * With permission and by instruction, this project uses the [blank project template](https://github.com/Sasisekhar/blank_project_rt) provided in the Cadmium V2 manual.
 * With permission and by instruction, this project is informed by the [sample project](https://github.com/Sasisekhar/cell-devs-manual-example) provided in the Cadmium V2 manual.
 * With permission, this project is informed by and reuses parts of the author's original work for the [LEO User Link](https://github.com/mpdesantis/LEO_User_Link).
+* With permission, this project is informed by and reuses parts of the author's original work for the [Map Generation](https://github.com/mpdesantis/Map_Generation).
 * Thanks Professor Wainer!! 
