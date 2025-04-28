@@ -6,6 +6,7 @@
 
 /**
  * Enum for easy state representation.
+ * State names are commented with their colour encodings used in visualization.
  */
 enum BimSimStateName {
     EMPTY_COLD_0,             // 0     #b3b3ff    [179, 179, 255]
@@ -24,7 +25,6 @@ enum BimSimStateName {
 };
 
 
-
 /**
  * Atomic model cell state variables.
  */
@@ -40,20 +40,12 @@ struct BimSimState {
      */
     int type;
     double temperature;
-    double dissipation_min;
-    double dissipation_max;
-    double generation_min;
-    double generation_max;
 
     /**
      * Constructor
      */
     BimSimState() : type(BimSimStateName::EMPTY_OK_3)
         , temperature(DEFAULT_TEMP)
-        , dissipation_min(0.0)
-        , dissipation_max(0.0)
-        , generation_min(0.0)
-        , generation_max(0.0)
     {}
 
     /**
@@ -91,6 +83,7 @@ struct BimSimState {
  *
  * Defines the output format of the BimSimState enum class in order to
  * print the cell state.
+ *
  *  <0>  : EMPTY_COLD_0             #b3b3ff    [179, 179, 255]
  *  <1>  : EMPTY_COLD_1             #ccccff    [204, 204, 255]
  *  <2>  : EMPTY_COLD_2             #e6e6ff    [230, 230, 255]
@@ -114,16 +107,15 @@ std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
  * operator!= overload definition.
  *
  * Enables simulator to check for equality between two state objects.
+ * Equality is determined by state and temperature.
  */
 bool operator!=(const BimSimState& x, const BimSimState& y) {
-    // N.B. Explicitly check EVERYTHING you are interested in!!!!!!!
-    // This is a sneaky bug hotspot.
     double tolerance = 0.0001;
     return x.type != y.type || std::abs(x.temperature - y.temperature) > tolerance;
 }
 
 /**
- * Parse a JSON file to populate a cell's state.
+ * Parse a JSON file to populate a cell's initial state.
  */
 void from_json(const nlohmann::json& j, BimSimState& s) {
     j.at("type").get_to(s.type);
