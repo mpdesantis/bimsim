@@ -44,4 +44,3 @@ run
 **/bin
 # simulation outputs
 output/*
-prototype/*.csv
