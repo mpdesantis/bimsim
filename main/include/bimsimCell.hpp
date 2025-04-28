@@ -38,11 +38,11 @@ private:
     static constexpr double MAX_TARGET_TEMP = 24.00;
     static constexpr double TARGET_TEMP = (MAX_TARGET_TEMP + MIN_TARGET_TEMP) / 2;
     // Dissipation constants
-    static constexpr double DEFAULT_DISSIPATION_MIN = 0.20;
+    static constexpr double DEFAULT_DISSIPATION_MIN = 0.15;
     static constexpr double DEFAULT_DISSIPATION_MAX = 0.25;
     static constexpr double WALL_DISSIPATION_MIN = 1.25;
     static constexpr double WALL_DISSIPATION_MAX = 1.50;
-    static constexpr double WINDOW_DISSIPATION_MIN = 1.50;
+    static constexpr double WINDOW_DISSIPATION_MIN = 1.75;
     static constexpr double WINDOW_DISSIPATION_MAX = 2.75;
     // Generation constants
     static constexpr double OCCUPANT_GENERATION_MIN = 0.20;
