@@ -74,8 +74,8 @@ public:
 
         /* Canvas the Neighborhood */
 
-        // Canvas this cell's neighborhood to categorize neighbor types
-        // ie. tally neighbor cells by type
+        // Canvas this cell's neighborhood and record required values for determining
+        // temperature and occupancy.
         for (const auto& [neighborId, neighborData]: neighborhood) {
             // State of the neighbor cell for this iteration
             auto nState = neighborData.state;
@@ -93,7 +93,6 @@ public:
         state.temperature = neighbourhood_temperature / neighbours;
 
         /* Mutate State Based on Rules and Return */
-
 
         // Case: Empty cells
         // 0  EMPTY_COLD_0             #b3b3ff    [179, 179, 255]
@@ -150,7 +149,7 @@ public:
             state.generate(WINDOW_GENERATION_MIN, WINDOW_GENERATION_MAX);
         }
 
-        // Return the (possibly) mutated state, with its temperature retained
+        // Return the (possibly) mutated state, with its updated temperature.
         return state;
 
     }
@@ -160,16 +159,6 @@ public:
      */
     [[nodiscard]] double outputDelay(const BimSimState& state) const override {
         return DEFAULT_DELAY_TIME;
-    }
-
-    /**
-     * Get a random probability in [0, 1]
-     */
-    double randomProbability() const {     
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_real_distribution<> dis(0.0, 1.0);
-        return dis(gen);
     }
 
     /**
