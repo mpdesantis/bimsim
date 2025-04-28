@@ -42,8 +42,8 @@ private:
     static constexpr double DEFAULT_DISSIPATION_MAX = 0.25;
     static constexpr double WALL_DISSIPATION_MIN = 1.25;
     static constexpr double WALL_DISSIPATION_MAX = 1.50;
-    static constexpr double WINDOW_DISSIPATION_MIN = 1.75;
-    static constexpr double WINDOW_DISSIPATION_MAX = 2.00;
+    static constexpr double WINDOW_DISSIPATION_MIN = 1.50;
+    static constexpr double WINDOW_DISSIPATION_MAX = 2.75;
     // Generation constants
     static constexpr double OCCUPANT_GENERATION_MIN = 0.20;
     static constexpr double OCCUPANT_GENERATION_MAX = 0.40;
