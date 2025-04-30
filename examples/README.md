@@ -15,7 +15,7 @@ TODO: paste tree
 Examples in this directory are organized as follows:
 
 ### Example 1: High Occupany 
-* Occupancy: 42/48 workstations occupied
+* Occupancy: 44/48 workstations occupied
 * Configuration 1: Scattered occupancy pattern
     * Variation 1: Occupancy sensors enabled
     * Variation 2: Occupancy sensors disabled
