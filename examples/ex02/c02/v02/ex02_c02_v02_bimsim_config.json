@@ -10,7 +10,8 @@
       "model": "bimsim",
       "state": { 
         "type": 3,
-        "temperature": 22.50
+        "temperature": 22.50,
+        "sensor": false
       },
       "neighborhood": [
         { "type": "moore", "range": 4 }
@@ -71,12 +72,14 @@
     },
     "heater_on": {
       "state": { 
-        "type": 9
+        "type": 9,
+        "sensor": true
       }
     },
     "heater_off": {
       "state": { 
-        "type": 10
+        "type": 10,
+        "sensor": true
       },
       "cell_map": [ 
         [ 5, 5], [14, 5], [23, 5], [32, 5],
