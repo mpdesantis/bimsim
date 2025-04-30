@@ -216,11 +216,14 @@ public:
      */
     void updateHeaterCellState(BimSimState& state, int occupants) const {     
 
-        // If zone occupied and strictly less than target temperature, heater ON
-        if (state.temperature < TARGET_TEMP && occupants)  {
+        // The temperature is low, the heater's occupancy sensor is enabled, and the
+        // zone is occupied, so turn the heater on
+        if (state.temperature < TARGET_TEMP &&
+            state.sensor  &&
+            occupants)  {
             state.type = BimSimStateName::HEATER_ON;
         }
-        // If greater than target temperature, heater OFF
+        // The target temperature is achieved, so turn the heater off
         else {
             state.type = BimSimStateName::HEATER_OFF;
         }

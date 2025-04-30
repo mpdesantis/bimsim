@@ -40,12 +40,14 @@ struct BimSimState {
      */
     int type;
     double temperature;
+    bool sensor;
 
     /**
      * Constructor
      */
     BimSimState() : type(BimSimStateName::EMPTY_OK_3)
         , temperature(DEFAULT_TEMP)
+        , sensor(false)
     {}
 
     /**
@@ -120,6 +122,7 @@ bool operator!=(const BimSimState& x, const BimSimState& y) {
 void from_json(const nlohmann::json& j, BimSimState& s) {
     j.at("type").get_to(s.type);
     j.at("temperature").get_to(s.temperature);
+    j.at("sensor").get_to(s.sensor);
 }
 
 #endif // BIMSIM_STATE_HPP
