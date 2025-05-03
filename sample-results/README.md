@@ -5,7 +5,7 @@
 
 ## Description
 Sample results from an execution of the `run_all_examples.sh` script. Each experimental subdirectory contains the following files:
-* JSON Configuration file used to configure and visualize the experiment
+* JSON configuration file used to configure and visualize the experiment
 * CSV grid log output of the experimental simulation
 * A diagram showing the experimental configuration and cell coordinates
 * Simulation visualization images for:
