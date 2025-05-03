@@ -106,10 +106,10 @@ int main(int argc, char ** argv) {
     }
 
     // Print simulation parameters to console
-    std::cout << "\nAttempting simulation with the following parameters:";
-    std::cout << "\n\tConfig File: " << configFilePath;
-    std::cout << "\n\tSimulation Duration: " << simTime;
-    std::cout << "\n\tOutput File: " << outputFilePath;
+    std::cout << "\nExecuting simulation with the following parameters:";
+    std::cout << "\n\t* Config File: " << configFilePath;
+    std::cout << "\n\t* Simulation Duration: " << simTime;
+    std::cout << "\n\t* Output File: " << outputFilePath;
     std::cout << std::endl;
 
     /* Models */
@@ -128,6 +128,6 @@ int main(int argc, char ** argv) {
     rootCoordinator.stop();
 
     // Report results and return
-    std::cout << "\nSimulation complete.\n";
+    std::cout << "Simulation complete.\n";
     return 0;
 }
