@@ -14,8 +14,8 @@ Sample results from an execution of the `run_all_examples.sh` script. Each exper
 * A `.webm` video of the entire simulation
 * A `.gif` video of the entire simulation
 
-## Examples
-Examples in this directory are organized as follows:
+## Experiments
+Experiments in this directory are organized as follows:
 
 ### Example 1: High Occupany 
 * Occupancy: 44/48 workstations occupied
@@ -44,8 +44,8 @@ Examples in this directory are organized as follows:
     * Variation 1: Occupancy sensors disabled
     * Variation 2: Occupancy sensors enabled
 
-## Results
-The section below presents an overview of the result visualizations for each experiment listed above for convenience. For complete experimental files, please see the dedicated subdirectories.
+## Experiment Simulation Visualizations
+The section below presents a summary of simulation visualizations for each experiment listed above. For complete experimental files, please see the dedicated subdirectories.
 
 ### Example 1: High Occupancy (44/48)
 
