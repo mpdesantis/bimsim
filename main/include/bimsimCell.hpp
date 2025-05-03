@@ -138,7 +138,7 @@ public:
             updateHeaterCellState(state, occupant_neighbours);
         } 
         // Case: Unactive Heater
-        // 9  HEATER_OFF               #ff0002    [255,   0,   0]
+        // 10 HEATER_OFF               #ffad33    [255, 173,  51]
         else if(state.type == BimSimStateName::HEATER_OFF) {
             // Dissipate and/or generate heat as required
             if (state.temperature >= MIN_TEMP) {
