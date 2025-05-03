@@ -17,29 +17,29 @@ Examples in this directory are organized as follows:
 ### Example 1: High Occupany 
 * Occupancy: 44/48 workstations occupied
 * Configuration 1: Scattered occupancy pattern
-    * Variation 1: Occupancy sensors enabled
-    * Variation 2: Occupancy sensors disabled
+    * Variation 1: Occupancy sensors disabled
+    * Variation 2: Occupancy sensors enabled
 * Configuration 2: Condensed occupancy pattern 
-    * Variation 1: Occupancy sensors enabled
-    * Variation 2: Occupancy sensors disabled
+    * Variation 1: Occupancy sensors disabled
+    * Variation 2: Occupancy sensors enabled
     
 ### Example 2: Half Occupany 
 * Occupancy: 24/48 workstations occupied
 * Configuration 1: Scattered occupancy pattern
-    * Variation 1: Occupancy sensors enabled
-    * Variation 2: Occupancy sensors disabled
+    * Variation 1: Occupancy sensors disabled
+    * Variation 2: Occupancy sensors enabled
 * Configuration 2: Condensed occupancy pattern 
-    * Variation 1: Occupancy sensors enabled
-    * Variation 2: Occupancy sensors disabled
+    * Variation 1: Occupancy sensors disabled
+    * Variation 2: Occupancy sensors enabled
     
-### Example 3: High Occupany 
+### Example 3: Low Occupany 
 * Occupancy: 8/48 workstations occupied
 * Configuration 1: Scattered occupancy pattern
-    * Variation 1: Occupancy sensors enabled
-    * Variation 2: Occupancy sensors disabled
+    * Variation 1: Occupancy sensors disabled
+    * Variation 2: Occupancy sensors enabled
 * Configuration 2: Condensed occupancy pattern 
-    * Variation 1: Occupancy sensors enabled
-    * Variation 2: Occupancy sensors disabled
+    * Variation 1: Occupancy sensors disabled
+    * Variation 2: Occupancy sensors enabled
     
 
 
