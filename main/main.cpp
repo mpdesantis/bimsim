@@ -27,7 +27,7 @@ void printHelp() {
     std::cout << "\n  --config, -c     FILE   Take configuration from FILE.";
     std::cout << "\n                            Default: config/bimsim_config.json";
     std::cout << "\n  --duration, -d   NUM    Execute simulation for NUM time units.";
-    std::cout << "\n                            Default: 20";
+    std::cout << "\n                            Default: 96";
     std::cout << "\n  --output, -o     FILE   Log CSV output to FILE.";
     std::cout << "\n                            Default: output/bimsim_grid_log.csv";
     std::cout << "\n  --help, -h              Print this menu and exit.";
