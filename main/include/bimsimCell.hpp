@@ -77,7 +77,7 @@ public:
         /* Canvas the Neighborhood */
 
         // Canvas this cell's neighborhood and record required values for determining
-        // temperature and occupancy.
+        // temperature and occupancy
         for (const auto& [neighborId, neighborData]: neighborhood) {
             // State of the neighbor cell for this iteration
             auto nState = neighborData.state;
@@ -104,18 +104,20 @@ public:
         // 4  EMPTY_HOT_4              #ffe6e6    [255, 230, 230]
         // 5  EMPTY_HOT_5              #ffcccc    [255, 204, 204]
         // 6  EMPTY_HOT_6              #ffb3b3    [255, 179, 179]
-        if(state.type >= BimSimStateName::EMPTY_COLD_0 && state.type <= BimSimStateName::EMPTY_HOT_6) {
+        if(state.type >= BimSimStateName::EMPTY_COLD_0 && 
+           state.type <= BimSimStateName::EMPTY_HOT_6) {
             // Dissipate and/or generate heat as required
             if (state.temperature >= MIN_TEMP) {
                 state.dissipate(DEFAULT_DISSIPATION_MIN, DEFAULT_DISSIPATION_MAX);
             }
-            // Update the state based on new temperature (for visualization)
+            // Update the state based on new temperature
             updateEmptyCellStateByTemperature(state);
         } 
         // Case: Occupants
         // 7  OCCUPANT_COMFORTABLE     #ffff66    [255, 255, 102]
         // 8  OCCUPANT_UNCOMFORTABLE   #cc33ff    [204,  51, 255]
-        else if(state.type == BimSimStateName::OCCUPANT_COMFORTABLE || state.type == BimSimStateName::OCCUPANT_UNCOMFORTABLE) {
+        else if(state.type == BimSimStateName::OCCUPANT_COMFORTABLE ||
+                state.type == BimSimStateName::OCCUPANT_UNCOMFORTABLE) {
             // Dissipate and/or generate heat as required
             if (state.temperature >= MIN_TEMP) {
                 state.dissipate(DEFAULT_DISSIPATION_MIN, DEFAULT_DISSIPATION_MAX);
@@ -163,7 +165,7 @@ public:
             state.generate(WINDOW_GENERATION_MIN, WINDOW_GENERATION_MAX);
         }
 
-        // Return the (possibly) mutated state, with its updated temperature.
+        // Return the state with its updated temperature
         return state;
 
     }
@@ -180,31 +182,31 @@ public:
      */
     void updateEmptyCellStateByTemperature(BimSimState& state) const {     
 
-        // < 19
+        // Case: Temperature range: < 19
         if (state.temperature < (MIN_TARGET_TEMP - 2.00))  {
             state.type = BimSimStateName::EMPTY_COLD_0;
         }
-        // [19, 20)
+        // Case: Temperature range: [19, 20)
         else if (state.temperature < (MIN_TARGET_TEMP - 1.00))  {
             state.type = BimSimStateName::EMPTY_COLD_1;
         }
-        // [20, 21)
+        // Case: Temperature range: [20, 21)
         else if (state.temperature < MIN_TARGET_TEMP)  {
             state.type = BimSimStateName::EMPTY_COLD_2;
         }
-        // [21, 24]
+        // Case: Temperature range: [21, 24]
         else if (state.temperature >= MIN_TARGET_TEMP && state.temperature <= MAX_TARGET_TEMP) {
             state.type = BimSimStateName::EMPTY_OK_3;
         }
-        // (24, 25)
+        // Case: Temperature range: (24, 25)
         else if (state.temperature < MAX_TARGET_TEMP + 1.00) {
             state.type = BimSimStateName::EMPTY_HOT_4;
         } 
-        // [25, 26)
+        // Case: Temperature range: [25, 26)
         else if (state.temperature < MAX_TARGET_TEMP + 2.00) {
             state.type = BimSimStateName::EMPTY_HOT_5;
         }
-        // > 26
+        // Case: Temperature range: > 26
         else {
             state.type = BimSimStateName::EMPTY_HOT_6;
         }
@@ -212,29 +214,31 @@ public:
     }
 
     /**
-     * Update (mutate) state of HEATER cells based on occupancy and temperature targets.
+     * Update (mutate) state of HEATER cells based on sensor configuration, occupancy,
+     * and temperature targets.
      */
     void updateHeaterCellState(BimSimState& state, int occupants) const {     
 
-        // Cold
+        // Case: Temperature is below the target temperature
         if (state.temperature < TARGET_TEMP) {
-            // No sensor, indiscriminately heat
+            // Case: Heater sensor inactive, so indiscriminately heat zone irrespective
+            //       of detected occupancy
             if (!state.sensor) {
                 state.type = BimSimStateName::HEATER_ON;
             }
-            // Sensor
+            // Case: Heater sensor active, so check sensor for zone occupancy
             else {
-                // Occupied, so heat
+                // Case: Sensor reports occupancy, so heat zone
                 if (occupants) {
                     state.type = BimSimStateName::HEATER_ON;
                 }
-                // Not occupied, so don't heat
+                // Case: Sensor reports no occupancy, so do not heat zone
                 else {
                     state.type = BimSimStateName::HEATER_OFF;
                 }
             }
         }
-        // The target temperature is achieved, so turn the heater off
+        // Case: Temperature is above the target temperature, so do not heat zone
         else {
             state.type = BimSimStateName::HEATER_OFF;
         }
@@ -244,11 +248,11 @@ public:
      * Update (mutate) state of OCCUPANT cells based on temperature targets.
      */
     void updateOccupantCellState(BimSimState& state) const {     
-        // Occupant is within climate comfort zone
+        // Case: Occupant is within climate comfort zone
         if (state.temperature >= MIN_TARGET_TEMP && state.temperature <= MAX_TARGET_TEMP) {
             state.type = BimSimStateName::OCCUPANT_COMFORTABLE;
         }
-        // Occupant is not within climate comfort zone
+        // Case: Occupant is not within climate comfort zone
         else {
             state.type = BimSimStateName::OCCUPANT_UNCOMFORTABLE;
         }

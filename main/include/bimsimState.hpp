@@ -6,7 +6,8 @@
 
 /**
  * Enum for easy state representation.
- * State names are commented with their colour encodings used in visualization.
+ * State names are commented with their colour encodings (hex and RGB) used in 
+ * visualization for reference.
  */
 enum BimSimStateName {
     EMPTY_COLD_0,             // 0     #b3b3ff    [179, 179, 255]
@@ -109,7 +110,7 @@ std::ostream& operator<<(std::ostream& os, const BimSimState& s) {
  * operator!= overload definition.
  *
  * Enables simulator to check for equality between two state objects.
- * Equality is determined by state and temperature.
+ * Equality is determined by both state and temperature.
  */
 bool operator!=(const BimSimState& x, const BimSimState& y) {
     double tolerance = 0.0001;
