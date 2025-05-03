@@ -11,7 +11,6 @@ Sample results from an execution of the `run_all_examples.sh` script. Each exper
 * Simulation visualization images for:
     * Initial state (`t=0`)
     * Final state (`t=95`)
-    * Notable simulation steps captured for analysis
 * A `.webm` video of the entire simulation
 * A `.gif` video of the entire simulation
 
@@ -59,6 +58,8 @@ The section below presents an overview of the result visualizations for each exp
 ##### Variation 2: Occupancy Sensors Enabled
 ![Experiment 1 Configuration 1 Variation 2](ex01/c01/v02/ex01_c01_v02_bimsim_video.gif)
 
+___
+
 #### Configuration 2: Consolidated Occupancy Pattern
 ![Floorplan](ex01/c02/ex01_c02_floorplan.png)
 
@@ -67,6 +68,8 @@ The section below presents an overview of the result visualizations for each exp
 
 ##### Variation 2: Occupancy Sensors Enabled
 ![Experiment 1 Configuration 2 Variation 2](ex01/c02/v02/ex01_c02_v02_bimsim_video.gif)
+
+---
 
 ### Example 2: Half Occupancy (24/48)
 
@@ -79,6 +82,8 @@ The section below presents an overview of the result visualizations for each exp
 ##### Variation 2: Occupancy Sensors Enabled
 ![Experiment 2 Configuration 1 Variation 2](ex02/c01/v02/ex02_c01_v02_bimsim_video.gif)
 
+___
+
 #### Configuration 2: Consolidated Occupancy Pattern
 ![Floorplan](ex02/c02/ex02_c02_floorplan.png)
 
@@ -87,6 +92,8 @@ The section below presents an overview of the result visualizations for each exp
 
 ##### Variation 2: Occupancy Sensors Enabled
 ![Experiment 2 Configuration 2 Variation 2](ex02/c02/v02/ex02_c02_v02_bimsim_video.gif)
+
+---
 
 ### Example 3: Low Occupancy (8/48)
 
@@ -98,6 +105,8 @@ The section below presents an overview of the result visualizations for each exp
 
 ##### Variation 2: Occupancy Sensors Enabled
 ![Experiment 3 Configuration 1 Variation 2](ex03/c01/v02/ex03_c01_v02_bimsim_video.gif)
+
+___
 
 #### Configuration 2: Consolidated Occupancy Pattern
 ![Floorplan](ex03/c02/ex03_c02_floorplan.png)
