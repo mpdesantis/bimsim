@@ -15,7 +15,7 @@ Sample results from an execution of the `run_all_examples.sh` script. Each exper
 * A `.gif` video of the entire simulation
 
 ## Experiments
-Experiments in this directory are organized as follows:
+Experimental examples in this directory are organized as follows:
 
 ### Example 1: High Occupany 
 * Occupancy: 44/48 workstations occupied
@@ -45,7 +45,7 @@ Experiments in this directory are organized as follows:
     * Variation 2: Occupancy sensors enabled
 
 ## Experiment Simulation Visualizations
-The section below presents a summary of simulation visualizations for each experiment listed above. For complete experimental files, please see the dedicated subdirectories.
+The section below presents a summary of simulation visualizations for each experimental example listed above. For each example's complete files, please see the dedicated subdirectories.
 
 ### Cell Legend
 The following simulization visualizations use the following color scheme to represent cell states:
