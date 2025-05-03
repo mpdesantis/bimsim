@@ -60,6 +60,29 @@ To build this project, issue the following command:
 $ . build_sim.sh
 ```
 Find the resultant binary at `bin/bimsim`.
+Compilation output should be similar to the example here:
+```sh
+$ . build_sim.sh
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/mdesantis/school/sysc/4906g/bimsim/build
+[ 50%] Building CXX object main/CMakeFiles/bimsim.dir/main.cpp.o
+[100%] Linking CXX executable ../../bin/bimsim
+[100%] Built target bimsim
+Compilation done. Executable in the bin folder
+```
 
 ### Configure an Experiment for Simulation
 To configure a sample experiment for simulation, you may copy and modify the template configuration file provided in `config/`. Additionally, you may modify any of the packaged experimental configuration files in `examples/`.
