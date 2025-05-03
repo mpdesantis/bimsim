@@ -47,6 +47,10 @@ Experiments in this directory are organized as follows:
 ## Experiment Simulation Visualizations
 The section below presents a summary of simulation visualizations for each experiment listed above. For complete experimental files, please see the dedicated subdirectories.
 
+### Cell Legend
+The following simulization visualizations use the following color scheme to represent cell states:
+![Cell Legend](experimental-frame/cell_legend.png)
+
 ### Example 1: High Occupancy (44/48)
 
 #### Configuration 1: Scattered Occupancy Pattern
