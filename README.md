@@ -72,8 +72,8 @@ $ ./bin/bimsim [-h | --help]
 For example, an invocation with all three parameters receiving arguments may look as follows:
 ```sh
 $ ./bin/bimsim \
-  --config examples/ex01/v01/ex01_v01_bimsim_config.json \    
-  --output examples/ex01/v01/ex01_v01_bimsim_grid_log.csv \ 
+  --config examples/ex01/c01/v01/ex01_c01_v01_bimsim_config.json \    
+  --output examples/ex01/c01/v01/ex01_c01_v01_bimsim_grid_log.csv \ 
   --duration 96
 ```
 
@@ -82,7 +82,7 @@ To execute this project's example simulations, issue the following command:
 ```sh
 $ ./run_all_examples.sh
 ```
-Upon successful execution, corresponding output for each simulation binary will be found in the `examples/` subdirectory corresponding to that experiment.
+Upon successful execution, corresponding output for each simulation binary will be found in the `examples/` subdirectory corresponding to that experiment alongside the JSON file used to configure that experiment.
 Results from a single execution, with corresponding configuration files and visuals (images and video) may be found in the `sample-results/` directory. These examples are referenced in the project report.
 
 ### Visualizing the Results
