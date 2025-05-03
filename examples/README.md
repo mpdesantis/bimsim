@@ -6,11 +6,6 @@
 ## Description
 Example configurations. 
 
-## Contents
-The examples here are as follows:
-
-TODO: paste tree
-
 ## Examples
 Examples in this directory are organized as follows:
 
@@ -40,8 +35,45 @@ Examples in this directory are organized as follows:
 * Configuration 2: Condensed occupancy pattern 
     * Variation 1: Occupancy sensors disabled
     * Variation 2: Occupancy sensors enabled
-    
 
+## File Organization
+Configuration files associated with the above example experiments are organized in this directory as follows:
+```sh
+.
+├── ex01
+│   ├── c01
+│   │   ├── v01
+│   │   │   └── ex01_c01_v01_bimsim_config.json
+│   │   └── v02
+│   │       └── ex01_c01_v02_bimsim_config.json
+│   └── c02
+│       ├── v01
+│       │   └── ex01_c02_v01_bimsim_config.json
+│       └── v02
+│           └── ex01_c02_v02_bimsim_config.json
+├── ex02
+│   ├── c01
+│   │   ├── v01
+│   │   │   └── ex02_c01_v01_bimsim_config.json
+│   │   └── v02
+│   │       └── ex02_c01_v02_bimsim_config.json
+│   └── c02
+│       ├── v01
+│       │   └── ex02_c02_v01_bimsim_config.json
+│       └── v02
+│           └── ex02_c02_v02_bimsim_config.json
+└── ex03
+    ├── c01
+    │   ├── v01
+    │   │   └── ex03_c01_v01_bimsim_config.json
+    │   └── v02
+    │       └── ex03_c01_v02_bimsim_config.json
+    └── c02
+        ├── v01
+        │   └── ex03_c02_v01_bimsim_config.json
+        └── v02
+            └── ex03_c02_v02_bimsim_config.json
+```
 
 ## Notes
 * To execute these examples, run the `run_all_examples.sh` script.
