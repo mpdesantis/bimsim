@@ -26,8 +26,6 @@ This repository's contents.
     - Shell script defining additional environment variables for this repository.
 * `sample-results/`
     - Directory containing sample output logs from model simulation, accompanied by the corresponding visualization files (images and videos). These results are referenced by the project report.
-* `img/`
-    - Directory containing images for this repository, as included inline in the project report.
 * `main/`
     - C++ source and header files for this repository's main code module, `bimsim`.
 * `output/`
