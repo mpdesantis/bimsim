@@ -121,6 +121,9 @@ ___
 ##### Variation 2: Occupancy Sensors Enabled
 ![Experiment 3 Configuration 2 Variation 2](ex03/c02/v02/ex03_c02_v02_bimsim_video.gif)
 
+## Experimental Data
+The following table shows experimental data retrieved from the simulation logs of the above examples.
+![Experimental Data from Simulations](data/experimental_data.png)
 
 ## File Organization
 Files associated with the above example experiments are organized in this directory as follows:
