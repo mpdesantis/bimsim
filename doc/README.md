@@ -5,8 +5,3 @@
 
 ## Description
 Documents relevant to this project.
-
-## Contents
-
-## Notes
-

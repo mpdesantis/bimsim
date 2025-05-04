@@ -4,9 +4,4 @@
 * Date: 2025/04/04
 
 ## Description
-Docs from Professor.
-
-## Contents
-
-## Notes
-
+Assigned documents used in the preparation of this project.
