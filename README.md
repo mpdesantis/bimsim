@@ -58,11 +58,28 @@ To build this project, issue the following command:
 $ . build_sim.sh
 ```
 Find the resultant binary at `bin/bimsim`.
-Compilation output should be similar to the example here:
+Compilation output should be similar to the example here, executed on the DEVS Simulation Environment.
 ```sh
-$ . build_sim.sh
--- The C compiler identification is GNU 11.4.0
--- The CXX compiler identification is GNU 11.4.0
+
+██████╗ ███████╗██╗   ██╗███████╗███████╗██╗███╗   ███╗
+██╔══██╗██╔════╝██║   ██║██╔════╝██╔════╝██║████╗ ████║
+██║  ██║█████╗  ██║   ██║███████╗███████╗██║██╔████╔██║
+██║  ██║██╔══╝  ╚██╗ ██╔╝╚════██║╚════██║██║██║╚██╔╝██║
+██████╔╝███████╗ ╚████╔╝ ███████║███████║██║██║ ╚═╝ ██║
+╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝╚══════╝╚═╝╚═╝     ╚═╝
+
+DEVS Simulation Environment
+
+
+Welcome to the DEVSSIM server!
+Recommended usage: Connect to this server using VScode; start with a template model.
+Visit https://devssim.carleton.ca for further instrustions.
+
+Please use https://forms.office.com/r/kGP99XfTaU to request installation of software.
+Michael@devssim:~$ cd bimsim/
+Michael@devssim:~/bimsim$ . build_sim.sh
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Check for working C compiler: /usr/bin/cc - skipped
@@ -73,13 +90,14 @@ $ . build_sim.sh
 -- Check for working CXX compiler: /usr/bin/c++ - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Configuring done
--- Generating done
--- Build files have been written to: /home/mdesantis/school/sysc/4906g/bimsim/build
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/Michael/bimsim/build
 [ 50%] Building CXX object main/CMakeFiles/bimsim.dir/main.cpp.o
-[100%] Linking CXX executable ../../bin/bimsim
+[100%] Linking CXX executable /home/Michael/bimsim/bin/bimsim
 [100%] Built target bimsim
 Compilation done. Executable in the bin folder
+Michael@devssim:~/bimsim$
 ```
 
 ### Configure an Experiment for Simulation

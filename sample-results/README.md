@@ -4,7 +4,7 @@
 * Date: 2025/04/29
 
 ## Description
-Sample results from an execution of the `run_all_examples.sh` script. Each experimental subdirectory contains the following files:
+Sample results from an execution of the `run_all_examples.sh` script on the DEVS Simulation Environment. Each experimental subdirectory contains the following files:
 * JSON configuration file used to configure and visualize the experiment
 * CSV grid log output of the experimental simulation
 * A diagram showing the experimental configuration and cell coordinates
@@ -235,10 +235,10 @@ Files associated with the above example experiments are organized in this direct
 ```
 
 ## Script Output
-Output of the `run_all_examples.sh` script for this execution was as follows:
+Output of the `run_all_examples.sh` script for this execution on the DEVS Server was as follows:
 ```sh
-$ ./run_all_examples.sh
-EXECUTING /home/mdesantis/school/sysc/4906g/bimsim/run_all_examples.sh...
+Michael@devssim:~/bimsim$ ./run_all_examples.sh
+EXECUTING /home/Michael/bimsim/run_all_examples.sh...
 
 
 Executing all simulation examples...
@@ -248,85 +248,86 @@ Executing all simulation examples...
 Executing all simulations for Example 01: High Occupancy Work Day...
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c01/v01/ex01_c01_v01_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c01/v01/ex01_c01_v01_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex01/c01/v01/ex01_c01_v01_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex01/c01/v01/ex01_c01_v01_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c01/v02/ex01_c01_v02_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c01/v02/ex01_c01_v02_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex01/c01/v02/ex01_c01_v02_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex01/c01/v02/ex01_c01_v02_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c02/v01/ex01_c02_v01_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c02/v01/ex01_c02_v01_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex01/c02/v01/ex01_c02_v01_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex01/c02/v01/ex01_c02_v01_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c02/v02/ex01_c02_v02_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex01/c02/v02/ex01_c02_v02_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex01/c02/v02/ex01_c02_v02_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex01/c02/v02/ex01_c02_v02_bimsim_grid_log.csv
 Simulation complete.
 
 ********************************************************************
 Executing all simulations for Example 02: Half Occupancy Work Day...
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c01/v01/ex02_c01_v01_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c01/v01/ex02_c01_v01_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex02/c01/v01/ex02_c01_v01_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex02/c01/v01/ex02_c01_v01_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c01/v02/ex02_c01_v02_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c01/v02/ex02_c01_v02_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex02/c01/v02/ex02_c01_v02_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex02/c01/v02/ex02_c01_v02_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c02/v01/ex02_c02_v01_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c02/v01/ex02_c02_v01_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex02/c02/v01/ex02_c02_v01_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex02/c02/v01/ex02_c02_v01_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c02/v02/ex02_c02_v02_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex02/c02/v02/ex02_c02_v02_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex02/c02/v02/ex02_c02_v02_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex02/c02/v02/ex02_c02_v02_bimsim_grid_log.csv
 Simulation complete.
 
 ********************************************************************
 Executing all simulations for Example 03: Low Occupancy Work Day...
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c01/v01/ex03_c01_v01_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c01/v01/ex03_c01_v01_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex03/c01/v01/ex03_c01_v01_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex03/c01/v01/ex03_c01_v01_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c01/v02/ex03_c01_v02_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c01/v02/ex03_c01_v02_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex03/c01/v02/ex03_c01_v02_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex03/c01/v02/ex03_c01_v02_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c02/v01/ex03_c02_v01_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c02/v01/ex03_c02_v01_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex03/c02/v01/ex03_c02_v01_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex03/c02/v01/ex03_c02_v01_bimsim_grid_log.csv
 Simulation complete.
 
 Executing simulation with the following parameters:
-	* Config File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c02/v02/ex03_c02_v02_bimsim_config.json
-	* Simulation Duration: 96
-	* Output File: /home/mdesantis/school/sysc/4906g/bimsim/examples/ex03/c02/v02/ex03_c02_v02_bimsim_grid_log.csv
+        *Config File: /home/Michael/bimsim/examples/ex03/c02/v02/ex03_c02_v02_bimsim_config.json
+        *Simulation Duration: 96
+        *Output File: /home/Michael/bimsim/examples/ex03/c02/v02/ex03_c02_v02_bimsim_grid_log.csv
 Simulation complete.
 
 ********************************************************************
 All simulations executed successfully.
 
 --- YOU EXECUTED ---
+Michael@devssim:~/bimsim$
 ```
