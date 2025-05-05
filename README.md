@@ -21,7 +21,7 @@ This repository's contents.
     - CMake build instructions for this repository.
 * `doc/`
     - Directory containing documentation for this repository.
-        1. Report: `REPORT.pdf`
+        1. Report: `BIM_Sim.pdf`
 * `env.sh`
     - Shell script defining additional environment variables for this repository.
 * `sample-results/`
