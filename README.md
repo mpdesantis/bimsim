@@ -19,6 +19,8 @@ This repository's contents.
     - Cadmium V2 repository `git` submodule.
 * `CMakeLists.txt`
     - CMake build instructions for this repository.
+* `config/`
+    - Configuration file template for use in defining additional experiments.
 * `doc/`
     - Directory containing documentation for this repository.
         1. Report: `BIM_Sim.pdf`
